@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LoggedStatusService } from '../logged-status.service';
 
 @Component({
   selector: 'app-home',
@@ -6,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  constructor(private loggedService: LoggedStatusService) {}
 
+  logIn(){
+    this.loggedService.logMeIn();
+    console.log(this.loggedService.isLogged())
+
+
+  }
 }
