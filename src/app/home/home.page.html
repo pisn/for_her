@@ -10,15 +10,20 @@
 </ion-header>
 
 <ion-content>
-    <ion-card class="welcome-card">
-      <ion-img src="/assets/shapes.svg"></ion-img>
+    <ion-card class="welcome-card" (click)= "moreInfo()">
+        <button ion-item class="card-button" [routerDirection]="'forward'" [routerLink]="'/welcome'">
+            
+      <ion-img src="/assets/back_welcomecard.jpg"></ion-img>
       <ion-card-header>
         <ion-card-subtitle>Get Started</ion-card-subtitle>
-        <ion-card-title>Welcome to Ionic</ion-card-title>
+        <ion-card-title>4Her - O App criado somente para elas</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <p>Now that your app has been created, you'll want to start building out features and components. Check out some of the resources below for next steps.</p>
+        <p>Bem vindo ao 4Her. Servicos para residencia, eletronicos, informatica e linha branca. Feito por elas e para elas.</p>       
+        <br>
+        <p>Clique para instrucoes de como usar...</p>
       </ion-card-content>
+    </button>
     </ion-card>    
     <ion-grid fixed="true">
         <ion-row justify-content-center>          
