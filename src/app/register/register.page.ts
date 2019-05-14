@@ -64,19 +64,19 @@ export class RegisterPage implements OnInit {
     const parts = this.unFormat(val).split(this.DECIMAL_SEPARATOR)
     this.maskedId = this.cep_mask(parts[0]);
 
-    this.fillAddress(this.unFormat(val));
+    //this.fillAddress(this.unFormat(val));
 
     return this.maskedId;
 
   };
 
-  fillAddress(cep){
-    $http.get("https://viacep.com.br/ws/05346901/json/")
-    .then(function(response) {
+  // fillAddress(cep){
+  //   $http.get("https://viacep.com.br/ws/05346901/json/")
+  //   .then(function(response) {
 
-    });
+  //   });
 
-  }
+  // }
 
 
   unFormat(val) {

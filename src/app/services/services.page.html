@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Serviços</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>      
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="notifications"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-grid fixed>
+  <ion-row>
+    <ion-searchbar animated showCancelButton placeholder="Procurar por servicos"></ion-searchbar>
+  </ion-row>
+
+  <ion-item *ngFor='let s of servicesRows'>
+    <ion-row >
+      <ion-item *ngFor='let service of services | slice:s*3:s*3+3'>
+        <ion-col class="adjustableButton">
+          <ion-button>
+            {{service}}
+          </ion-button>
+        </ion-col>
+      </ion-item>      
+    </ion-row>  
+    
+  </ion-item>
+  
+
+</ion-grid>
+</ion-content>
