@@ -9,7 +9,7 @@ import { Services } from '@angular/core/src/view';
 export class ServicesPage implements OnInit {
 
   constructor() {
-    
+      
    }
 
   private services = [
@@ -24,6 +24,7 @@ export class ServicesPage implements OnInit {
   ]
 
   private servicesRows = Array.from(Array(Math.ceil(this.services.length/3))).map((x,i) => i);
+  private dummyColumns = Array.from(Array(3 - (this.services.length % 3))).map((x,i) => i);
 
   ngOnInit() {
   }

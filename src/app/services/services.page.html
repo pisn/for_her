@@ -12,24 +12,29 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-<ion-grid fixed>
+<ion-content class="no-padding">
+<ion-grid class="no-padding">
   <ion-row>
     <ion-searchbar animated showCancelButton placeholder="Procurar por servicos"></ion-searchbar>
   </ion-row>
 
-  <ion-item *ngFor='let s of servicesRows'>
-    <ion-row >
-      <ion-item *ngFor='let service of services | slice:s*3:s*3+3'>
-        <ion-col class="adjustableButton">
-          <ion-button>
-            {{service}}
-          </ion-button>
-        </ion-col>
-      </ion-item>      
-    </ion-row>  
-    
-  </ion-item>
+  
+    <ion-row *ngFor='let s of servicesRows' >      
+          <ion-col *ngFor='let service of services | slice:s*3:s*3+3'>
+            <ion-button size="small" class="no-padding fullwidth services-button">
+              {{service}}
+            </ion-button>
+          </ion-col>                 
+
+          <ng-container *ngIf ='s == servicesRows.length -1'>            
+            <ion-col *ngFor='let r of dummyColumns' >
+                
+            </ion-col>
+          </ng-container>
+        
+
+    </ion-row>    
+  
   
 
 </ion-grid>
