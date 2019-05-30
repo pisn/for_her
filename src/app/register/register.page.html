@@ -1,53 +1,84 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>register</ion-title>
     <ion-buttons slot="start">
         <ion-back-button></ion-back-button>
-      </ion-buttons>
+    </ion-buttons>
+    <ion-title>register</ion-title>
+    
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-img src="/assets/laugh.jpg"></ion-img>
-  <ion-grid fixed="true">
-    <ion-row justify-content-center>
-      <ion-col size ="6">
-        <ion-input placeholder="Nome Completo"></ion-input>
+  <ion-grid>
+    <ion-row >
+      <ion-col>
+        <ion-item>
+          <ion-label position="floating">Nome Completo</ion-label>
+          <ion-input [(ngModel)] = "nome"></ion-input>
+        </ion-item>
       </ion-col>
     </ion-row>
-    <ion-row justify-content-center>    
-      <ion-col size = "6">      
+    <ion-row>    
+      <ion-col>      
         <ion-datetime [monthNames] = "customMonthNames" placeholder="Data de Nascimento" display-format="D MMMM YYYY" picker-format="DD MMMM YYYY" ></ion-datetime>
       </ion-col>
     </ion-row>
-    <ion-row justify-content-center>
-      <ion-col size="6">
-          <ion-input placeholder="CPF" [(ngModel)]="cpf" (focusout)="cpf = formatCpf(cpf)" name="cpf"></ion-input>
+    <ion-row>
+      <ion-col>
+          <ion-item>
+            <ion-label position="floating">CPF</ion-label>
+            <ion-input [(ngModel)]="cpf" (focusout)="cpf = formatCpf(cpf)" name="cpf"></ion-input>
+          </ion-item>
       </ion-col>
     </ion-row>
-    <ion-row justify-content-center>
-      <ion-col size="6">
-        <ion-input placeholder="CEP" [(ngModel)]="cep" (focusout)="cep=formatCep(cep)" name="cep" ></ion-input>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="floating">CEP</ion-label>
+          <ion-input [(ngModel)]="cep" (focusout)="cep=formatCep(cep)" name="cep" ></ion-input>
+        </ion-item>
 
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-input placeholder="Rua,Avenida, Praça..." [(ngModel)]="logradouro" name="logradouro"></ion-input>
-      </ion-col>
-      <ion-col>
-        <ion-input placeholder="Número"></ion-input>
-      </ion-col>
-      <ion-col>
-        <ion-input placeholder="Complemento"></ion-input>
+        <ion-item>
+          <ion-label>Rua,Avenida, Praça... </ion-label>
+          <ion-input [(ngModel)]="logradouro" name="logradouro"></ion-input>
+        </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-input placeholder="Cidade" [(ngModel)]="cidade"></ion-input>
+        <ion-item>
+          <ion-label>Número</ion-label>
+          <ion-input [(ngModel)]="numero"></ion-input>
+        </ion-item>
       </ion-col>
+    </ion-row>
+    <ion-row>
       <ion-col>
-        <ion-input placeholder="UF" name="uf"></ion-input>
+        <ion-item>
+          <ion-label position="floating">Complemento</ion-label>
+          <ion-input [(ngModel)] ="complemento"></ion-input>          
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label position="floating">Cidade</ion-label>
+          <ion-input [(ngModel)]="cidade"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label>UF</ion-label>
+          <ion-input [(ngModel)]="uf" name="uf"></ion-input>
+        </ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>

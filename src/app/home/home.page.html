@@ -30,25 +30,31 @@
       </ion-card-content>
     </button>
     </ion-card>    
-    <ion-grid fixed="true">
-        <ion-row justify-content-center>          
-          <ion-col size="3">
-            <ion-input placeholder="Email"></ion-input>                      
+    <ion-grid>
+        <ion-row>          
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating">Email</ion-label>
+              <ion-input ></ion-input>
+            </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row justify-content-center>
-          <ion-col size="3">
-            <ion-input type="password" placeholder="Senha"></ion-input>
+        <ion-row>
+          <ion-col >
+            <ion-item>
+              <ion-label position="floating">Senha</ion-label>
+              <ion-input type="password" ></ion-input>
+            </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row justify-content-center>
-          <ion-col size="3">
-              <ion-button expand="full" [routerDirection] = "'forward'" [routerLink] = "'/register'">Criar Conta</ion-button>         
+        <ion-row >
+          <ion-col>
+              <ion-button class="no-padding fullwidth services-button" [routerDirection] = "'forward'" [routerLink] = "'/register'">Criar Conta</ion-button>         
           </ion-col>
         </ion-row>
-        <ion-row justify-content-center>
-          <ion-col size="3">
-            <ion-button expand="full" [routerDirection]="forward" [routerLink] = "'/services'">Entrar</ion-button>         
+        <ion-row >
+          <ion-col>
+            <ion-button class="no-padding fullwidth services-button" [routerDirection]="forward" [routerLink] = "'/services'">Entrar</ion-button>         
           </ion-col>
         </ion-row>        
     </ion-grid>
