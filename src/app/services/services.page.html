@@ -22,8 +22,8 @@
   
     <ion-row *ngFor='let s of servicesRows' >      
           <ion-col *ngFor='let service of services | slice:s*3:s*3+3'>
-            <ion-button size="small" class="no-padding fullwidth services-button">
-              {{service}}
+            <ion-button [routerLink]="'/subservices/' + service.name" [routerDirection] = "'forward'" size="small" (click)="listSubservices(service.name)" class="no-padding fullwidth services-button">
+              {{service.displayText}}
             </ion-button>
           </ion-col>                 
 

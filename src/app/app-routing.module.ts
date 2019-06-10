@@ -17,7 +17,9 @@ const routes: Routes = [
   },
   { path: 'welcome', loadChildren: './welcome/welcome.module#WelcomePageModule' },
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
-  { path: 'services', loadChildren: './services/services.module#ServicesPageModule' }
+  { path: 'services', loadChildren: './services/services.module#ServicesPageModule' },
+  { path: 'subservices', loadChildren: './subservices/subservices.module#SubservicesPageModule' },
+  { path: 'subservices/:chosenService', loadChildren: './subservices/subservices.module#SubservicesPageModule' }
 ];
 
 @NgModule({
