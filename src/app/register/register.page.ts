@@ -14,6 +14,16 @@ export class RegisterPage implements OnInit {
   constructor() {     
   }
 
+  nomeInput: string;
+  dataNascimentoInput: Date;
+  cpfInput : string;
+  cepInput: string;
+  logradouroInput: string;
+  numeroInput: number;
+  complementoInput: string;
+  cidadeInput: string;
+  ufInput: string;
+
   customMonthNames = [
     'Janeiro',
     'Fevereiro',
@@ -103,6 +113,10 @@ export class RegisterPage implements OnInit {
   ngOnInit() {
   }
 
-  
+  createAccount(){
+
+
+
+  }
 
 }

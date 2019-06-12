@@ -20,7 +20,7 @@ export class CognitoServiceService {
   }
 
 
-  signUp(email: string, birthDate:Date, password: string, address:string) {
+  signUp(email: string, birthDate:Date, password: string, cpf: string,  address:string) {
     return new Promise((resolved, reject) => {
       const userPool = new AWSCognito.CognitoUserPool(this._POOL_DATA);
 
@@ -28,7 +28,8 @@ export class CognitoServiceService {
       userAttribute.push(
         new AWSCognito.CognitoUserAttribute({ Name: "email", Value: email }),
         new AWSCognito.CognitoUserAttribute({ Name: "adress", Value: address }),
-        new AWSCognito.CognitoUserAttribute({ Name: "birthdate", Value: birthDate.toDateString() })        
+        new AWSCognito.CognitoUserAttribute({ Name: "birthdate", Value: birthDate.toDateString() }),
+        new AWSCognito.CognitoUserAttribute({ Name: "cpf", Value: cpf })
       );
 
       userPool.signUp(email, password, userAttribute, null, function(err, result) {

@@ -15,20 +15,20 @@
       <ion-col>
         <ion-item>
           <ion-label position="floating">Nome Completo</ion-label>
-          <ion-input [(ngModel)] = "nome"></ion-input>
+          <ion-input [(ngModel)] = "nomeInput"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
     <ion-row>    
       <ion-col>      
-        <ion-datetime [monthNames] = "customMonthNames" placeholder="Data de Nascimento" display-format="D MMMM YYYY" picker-format="DD MMMM YYYY" ></ion-datetime>
+        <ion-datetime [(ngModel)] = "dataNascimentoInput" [monthNames] = "customMonthNames" placeholder="Data de Nascimento" display-format="D MMMM YYYY" picker-format="DD MMMM YYYY" ></ion-datetime>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
           <ion-item>
             <ion-label position="floating">CPF</ion-label>
-            <ion-input [(ngModel)]="cpf" (focusout)="cpf = formatCpf(cpf)" name="cpf"></ion-input>
+            <ion-input [(ngModel)]="cpfInput" (focusout)="cpf = formatCpf(cpf)" name="cpf"></ion-input>
           </ion-item>
       </ion-col>
     </ion-row>
@@ -36,7 +36,7 @@
       <ion-col>
         <ion-item>
           <ion-label position="floating">CEP</ion-label>
-          <ion-input [(ngModel)]="cep" (focusout)="cep=formatCep(cep)" name="cep" ></ion-input>
+          <ion-input [(ngModel)]="cepInput" (focusout)="cep=formatCep(cep)" name="cep" ></ion-input>
         </ion-item>
 
       </ion-col>
@@ -45,7 +45,7 @@
       <ion-col>
         <ion-item>
           <ion-label>Rua,Avenida, Praça... </ion-label>
-          <ion-input [(ngModel)]="logradouro" name="logradouro"></ion-input>
+          <ion-input [(ngModel)]="logradouroInput" name="logradouro"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -53,7 +53,7 @@
       <ion-col>
         <ion-item>
           <ion-label>Número</ion-label>
-          <ion-input [(ngModel)]="numero"></ion-input>
+          <ion-input [(ngModel)]="numeroInput"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -61,7 +61,7 @@
       <ion-col>
         <ion-item>
           <ion-label position="floating">Complemento</ion-label>
-          <ion-input [(ngModel)] ="complemento"></ion-input>          
+          <ion-input [(ngModel)] ="complementoInput"></ion-input>          
         </ion-item>
       </ion-col>
     </ion-row>
@@ -69,7 +69,7 @@
       <ion-col>
         <ion-item>
           <ion-label position="floating">Cidade</ion-label>
-          <ion-input [(ngModel)]="cidade"></ion-input>
+          <ion-input [(ngModel)]="cidadeInput"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -77,8 +77,13 @@
       <ion-col>
         <ion-item>
           <ion-label>UF</ion-label>
-          <ion-input [(ngModel)]="uf" name="uf"></ion-input>
+          <ion-input [(ngModel)]="ufInput" name="uf"></ion-input>
         </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button class = "fullwidth" (click)="createAccount()">Criar Conta</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

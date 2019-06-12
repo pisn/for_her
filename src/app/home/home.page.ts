@@ -18,7 +18,7 @@ export class HomePage {
     console.log("password: "  +this.passwordInput);
     this.CognitoService.authenticate(this.emailInput,this.passwordInput)
       .then(res=> {
-         console.log("Access Token received from Amazon:" + this.CognitoService.getUserSession().getAccessToken());
+         console.log("Access Token received from Amazon.");
       },
       err =>{
         console.log(err);
