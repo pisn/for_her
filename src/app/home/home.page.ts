@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { LoggedStatusService } from '../logged-status.service';
+import {CognitoServiceService} from '../cognito-service.service'
+import { stringify } from '@angular/core/src/render3/util';
+import { reject } from 'q';
 
 @Component({
   selector: 'app-home',
@@ -7,12 +9,20 @@ import { LoggedStatusService } from '../logged-status.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  constructor(private loggedService: LoggedStatusService) {}
+  emailInput:string;
+  passwordInput:string;
 
-  logIn(){
-    this.loggedService.logMeIn();
-    console.log(this.loggedService.isLogged())
+  constructor(public CognitoService: CognitoServiceService) {}
 
+  login(){       
+    console.log("password: "  +this.passwordInput);
+    this.CognitoService.authenticate(this.emailInput,this.passwordInput)
+      .then(res=> {
+         console.log("Access Token received from Amazon:" + this.CognitoService.getUserSession().getAccessToken());
+      },
+      err =>{
+        console.log(err);
+      });
 
   }
 }

@@ -34,27 +34,27 @@
         <ion-row>          
           <ion-col>
             <ion-item>
-              <ion-label position="floating">Email</ion-label>
-              <ion-input ></ion-input>
+              <ion-label position="floating" >Email</ion-label>
+              <ion-input [(ngModel)]="emailInput"></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col >
             <ion-item>
-              <ion-label position="floating">Senha</ion-label>
-              <ion-input type="password" ></ion-input>
+              <ion-label position="floating" >Senha</ion-label>
+              <ion-input type="password" [(ngModel)]="passwordInput"></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
         <ion-row >
           <ion-col>
-              <ion-button class="no-padding fullwidth services-button" [routerDirection] = "'forward'" [routerLink] = "'/register'">Criar Conta</ion-button>         
+              <ion-button class="no-padding fullwidth services-button" [routerLink] ="'/register'" [routerDirection]="'forward'">Criar Conta</ion-button>         
           </ion-col>
         </ion-row>
         <ion-row >
           <ion-col>
-            <ion-button class="no-padding fullwidth services-button" [routerDirection]="forward" [routerLink] = "'/services'">Entrar</ion-button>         
+            <ion-button class="no-padding fullwidth services-button" (click)="login()" >Entrar</ion-button>         
           </ion-col>
         </ion-row>        
     </ion-grid>
