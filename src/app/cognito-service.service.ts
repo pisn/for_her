@@ -8,6 +8,7 @@ import * as AWSCognito from 'amazon-cognito-identity-js';
 export class CognitoServiceService {
 
   userSession : AWSCognito.CognitoUserSession;
+  isConnected : boolean;
 
   //replace the value with actual value 
   _POOL_DATA = {
@@ -20,18 +21,18 @@ export class CognitoServiceService {
   }
 
 
-  signUp(email: string, birthDate:Date, password: string, cpf: string,  address:string) {
+  signUp(email: string, birthDate:string, password: string, cpf: string,  address:string) {
     return new Promise((resolved, reject) => {
       const userPool = new AWSCognito.CognitoUserPool(this._POOL_DATA);
 
       let userAttribute = [];
       userAttribute.push(
         new AWSCognito.CognitoUserAttribute({ Name: "email", Value: email }),
-        new AWSCognito.CognitoUserAttribute({ Name: "adress", Value: address }),
-        new AWSCognito.CognitoUserAttribute({ Name: "birthdate", Value: birthDate.toDateString() }),
-        new AWSCognito.CognitoUserAttribute({ Name: "cpf", Value: cpf })
+        new AWSCognito.CognitoUserAttribute({ Name: "address", Value: address }),
+        new AWSCognito.CognitoUserAttribute({ Name: "birthdate", Value: birthDate }),
+        new AWSCognito.CognitoUserAttribute({ Name: "custom:CPF", Value: cpf })
       );
-
+      
       userPool.signUp(email, password, userAttribute, null, function(err, result) {
         if (err) {
           reject(err);
@@ -60,6 +61,7 @@ export class CognitoServiceService {
         onSuccess: result => {
           resolved(result);
           this.userSession = result;
+          this.isConnected = true;
         },
         onFailure: err => {
           reject(err);
@@ -84,5 +86,7 @@ export class CognitoServiceService {
     });
   }
 
-  constructor() { }
+  constructor() { 
+    this.isConnected = false;
+  }
 }

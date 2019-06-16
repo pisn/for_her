@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {CognitoServiceService} from '../cognito-service.service';
+import { GeneralUtilitiesModule} from '../general-utilities/general-utilities.module';
+import { NavController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-register',
@@ -11,11 +14,11 @@ export class RegisterPage implements OnInit {
   DECIMAL_SEPARATOR=".";
   GROUP_SEPARATOR=",";
 
-  constructor() {     
+  constructor(private cognitoService : CognitoServiceService, private navCtrl : NavController, private toastController : ToastController) {     
   }
 
   nomeInput: string;
-  dataNascimentoInput: Date;
+  dataNascimentoInput: string;
   cpfInput : string;
   cepInput: string;
   logradouroInput: string;
@@ -23,6 +26,8 @@ export class RegisterPage implements OnInit {
   complementoInput: string;
   cidadeInput: string;
   ufInput: string;
+  emailInput : string;
+  senhaInput : string;
 
   customMonthNames = [
     'Janeiro',
@@ -113,8 +118,31 @@ export class RegisterPage implements OnInit {
   ngOnInit() {
   }
 
-  createAccount(){
+  async toastNotify(message : string){
+    const toast = await this.toastController.create({            
+      duration:  10, 
+      message: message,
+      position: 'bottom'      
+    });
+    toast.present();
 
+  }
+
+  createAccount(){
+    var birthDate = new Date(this.dataNascimentoInput);
+    var birthFormatedString = birthDate.getFullYear() + "-" + GeneralUtilitiesModule.pad(birthDate.getMonth(),2) + "-" + GeneralUtilitiesModule.pad(birthDate.getDay(),2);
+    
+    var fullAdress = this.logradouroInput + ", " + this.numeroInput + (this.complementoInput != "" ? ", " + this.complementoInput : "") + ", " + this.cidadeInput + ", " + this.ufInput;
+
+    this.cognitoService.signUp(this.emailInput,birthFormatedString,this.senhaInput, this.cpfInput,fullAdress)
+        .then(res => {
+          console.log("Register created at Amazon.")  
+          this.navCtrl.back();
+          this.toastNotify("Conta criada. Para confirmar sua conta, siga as instruções enviadas por email");
+        },
+        err => {
+          console.log("Register failed at Amazon.");          
+        })
 
 
   }
