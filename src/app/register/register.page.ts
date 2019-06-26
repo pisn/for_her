@@ -44,6 +44,36 @@ export class RegisterPage implements OnInit {
     'Dezembro'
   ];
 
+  private ufs= [
+      'AC',
+      'AL',
+      'AP',
+      'AM',
+      'BA',
+      'CE',
+      'DF',
+      'ES',
+      'GO',
+      'MA',
+      'MT',
+      'MS',
+      'MG',
+      'PA',
+      'PB',
+      'PR',
+      'PE',
+      'PI',
+      'RJ',
+      'RN',
+      'RS',
+      'RO',
+      'RR',
+      'SC',
+      'SP',
+      'SE',
+      'TO'
+  ]  
+  
   cpf_mask(v) {
     v = v.replace(/\D/g, ''); //Remove tudo o que não é dígito
     v = v.replace(/(\d{3})(\d)/, '$1.$2'); //Coloca um ponto entre o terceiro e o quarto dígitos
@@ -134,7 +164,7 @@ export class RegisterPage implements OnInit {
     
     var fullAdress = this.logradouroInput + ", " + this.numeroInput + (this.complementoInput != "" ? ", " + this.complementoInput : "") + ", " + this.cidadeInput + ", " + this.ufInput;
 
-    this.cognitoService.signUp(this.emailInput,birthFormatedString,this.senhaInput, this.cpfInput,fullAdress)
+    this.cognitoService.signUp(this.emailInput,this.ufInput,birthFormatedString,this.senhaInput, this.cpfInput,fullAdress)
         .then(res => {
           console.log("Register created at Amazon.")  
           this.navCtrl.back();
@@ -142,6 +172,7 @@ export class RegisterPage implements OnInit {
         },
         err => {
           console.log("Register failed at Amazon.");          
+          console.log(err);  
         })
 
 

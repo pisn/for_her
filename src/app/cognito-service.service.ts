@@ -12,8 +12,8 @@ export class CognitoServiceService {
 
   //replace the value with actual value 
   _POOL_DATA = {
-    UserPoolId: "ca-central-1_TK3RRnXJH",
-    ClientId: "6k18j6jobmhhb036cf0sbm15hd"
+    UserPoolId: "ca-central-1_UKTkSiKAR",
+    ClientId: "618ibf867ggo4erplu002t6vf8"
   };  
 
   getUserSession(){
@@ -21,16 +21,17 @@ export class CognitoServiceService {
   }
 
 
-  signUp(email: string, birthDate:string, password: string, cpf: string,  address:string) {
+  signUp(email: string, name:string, birthDate:string, password: string, cpf: string,  address:string) {
     return new Promise((resolved, reject) => {
       const userPool = new AWSCognito.CognitoUserPool(this._POOL_DATA);
 
       let userAttribute = [];
       userAttribute.push(
+        new AWSCognito.CognitoUserAttribute({ Name: "name", Value: name }),
         new AWSCognito.CognitoUserAttribute({ Name: "email", Value: email }),
         new AWSCognito.CognitoUserAttribute({ Name: "address", Value: address }),
         new AWSCognito.CognitoUserAttribute({ Name: "birthdate", Value: birthDate }),
-        new AWSCognito.CognitoUserAttribute({ Name: "custom:CPF", Value: cpf })
+        new AWSCognito.CognitoUserAttribute({ Name: "custom:cpf", Value: cpf })
       );
       
       userPool.signUp(email, password, userAttribute, null, function(err, result) {
