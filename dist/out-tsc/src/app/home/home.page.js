@@ -9,7 +9,7 @@ var HomePage = /** @class */ (function () {
         console.log("password: " + this.passwordInput);
         this.CognitoService.authenticate(this.emailInput, this.passwordInput)
             .then(function (res) {
-            console.log("Access Token received from Amazon.");
+            console.log("Access Token received from Amazon.");            
         }, function (err) {
             console.log(err);
         });

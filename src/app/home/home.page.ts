@@ -15,11 +15,10 @@ export class HomePage {
 
   constructor(public CognitoService: CognitoServiceService, public navCtrl : NavController) {}
 
-  login(){       
-    console.log("password: "  +this.passwordInput);
+  login(){           
     this.CognitoService.authenticate(this.emailInput,this.passwordInput)
       .then(res=> {
-         console.log("Access Token received from Amazon.");
+         console.log("Access Token received from Amazon.");                  
          this.navCtrl.navigateForward('/services');
 
       },

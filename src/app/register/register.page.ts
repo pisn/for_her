@@ -122,7 +122,7 @@ export class RegisterPage implements OnInit {
   //   });
 
   // }
-
+3
 
   unFormat(val) {
     if (!val) {

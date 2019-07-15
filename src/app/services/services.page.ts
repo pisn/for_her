@@ -39,8 +39,7 @@ export class ServicesPage implements OnInit {
       
     //   }  
     // }
-    console.log('Service ' + chosenService);
-    //this.router.navigate(['/subservices',chosenService]); 
+    console.log('Service ' + chosenService);   
       
   }
 
