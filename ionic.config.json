@@ -1,7 +1,13 @@
 {
   "name": "ForHer",
-  "integrations": {
+  "integrations": { 
     "cordova": {}
   },
-  "type": "angular"
+  "type": "angular",
+  "proxies": [
+    {
+      "path":"/cep",
+      "proxyUrl": "https://viacep.com.br/ws"
+    }
+  ]
 }

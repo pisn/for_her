@@ -28,7 +28,7 @@
       <ion-col>
           <ion-item>
             <ion-label position="floating">CPF</ion-label>
-            <ion-input [(ngModel)]="cpfInput" (focusout)="cpf = formatCpf(cpf)" name="cpf"></ion-input>
+            <ion-input [(ngModel)]="cpfInput" (focusout)="formatCpf()"></ion-input>
           </ion-item>
       </ion-col>
     </ion-row>
@@ -52,7 +52,7 @@
       <ion-col>
         <ion-item>
           <ion-label position="floating">CEP</ion-label>
-          <ion-input [(ngModel)]="cepInput" (focusout)="cep=formatCep(cep)" name="cep" ></ion-input>
+          <ion-input [(ngModel)]="cepInput"  (focusout)="formatCep()" ></ion-input>
         </ion-item>
 
       </ion-col>

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {CognitoServiceService} from '../cognito-service.service';
 import { GeneralUtilitiesModule} from '../general-utilities/general-utilities.module';
 import { NavController, ToastController } from '@ionic/angular';
+import {HttpService} from '../http.service';
+import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +16,7 @@ export class RegisterPage implements OnInit {
   DECIMAL_SEPARATOR=".";
   GROUP_SEPARATOR=",";
 
-  constructor(private cognitoService : CognitoServiceService, private navCtrl : NavController, private toastController : ToastController) {     
+  constructor(private cognitoService : CognitoServiceService, private navCtrl : NavController, private toastController : ToastController, private httpService: HttpService) {     
   }
 
   nomeInput: string;
@@ -90,39 +92,45 @@ export class RegisterPage implements OnInit {
     return v;
   }
 
-  formatCpf(valString) {    
-    if (!valString) {
+  formatCpf() {       
+    if (!this.cpfInput) {
         return '';
     }
-    let val = valString.toString();        
+    let val = this.cpfInput.toString();        
     const parts = this.unFormat(val).split(this.DECIMAL_SEPARATOR)
+
     this.maskedId = this.cpf_mask(parts[0]);
-    return this.maskedId;
-    
+
+    this.cpfInput = this.maskedId;    
   };
 
-  formatCep(valString){
-    if(!valString)
+  formatCep(){
+
+    if(!this.cepInput)
       return '';
 
-    let val = valString.toString();
+    let val = this.cepInput.toString();
     const parts = this.unFormat(val).split(this.DECIMAL_SEPARATOR)
     this.maskedId = this.cep_mask(parts[0]);
 
-    //this.fillAddress(this.unFormat(val));
+    this.fillAddress(this.unFormat(val));
 
-    return this.maskedId;
+    this.cepInput = this.maskedId;
 
   };
 
-  // fillAddress(cep){
-  //   $http.get("https://viacep.com.br/ws/05346901/json/")
-  //   .then(function(response) {
+  fillAddress(cep){        
+    this.httpService.getHttpClient().get("/cep/" + cep + "/json/")
+       .subscribe((result: any) => {
+         console.log(result.logradouro);
 
-  //   });
+       },
+       (error: any) => {
+          console.log(error);
+       })
 
-  // }
-3
+  }
+
 
   unFormat(val) {
     if (!val) {
@@ -164,7 +172,7 @@ export class RegisterPage implements OnInit {
     
     var fullAdress = this.logradouroInput + ", " + this.numeroInput + (this.complementoInput != "" ? ", " + this.complementoInput : "") + ", " + this.cidadeInput + ", " + this.ufInput;
 
-    this.cognitoService.signUp(this.emailInput,this.ufInput,birthFormatedString,this.senhaInput, this.cpfInput,fullAdress)
+    this.cognitoService.signUp(this.emailInput,this.nomeInput,birthFormatedString,this.senhaInput, this.cpfInput,fullAdress)
         .then(res => {
           console.log("Register created at Amazon.")  
           this.navCtrl.back();
