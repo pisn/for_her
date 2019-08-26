@@ -16,6 +16,8 @@ export class HomePage {
   constructor(public CognitoService: CognitoServiceService, public navCtrl : NavController) {}
 
   login(){           
+    console.log("Teste Logcat");
+    
     this.CognitoService.authenticate(this.emailInput,this.passwordInput)
       .then(res=> {
          console.log("Access Token received from Amazon.");                  

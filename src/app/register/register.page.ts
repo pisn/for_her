@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {CognitoServiceService} from '../cognito-service.service';
 import { GeneralUtilitiesModule} from '../general-utilities/general-utilities.module';
 import { NavController, ToastController } from '@ionic/angular';
+
+
 import {HttpService} from '../http.service';
 import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
@@ -30,6 +32,7 @@ export class RegisterPage implements OnInit {
   ufInput: string;
   emailInput : string;
   senhaInput : string;
+  cepWorked : boolean;  
 
   customMonthNames = [
     'Janeiro',
@@ -120,13 +123,27 @@ export class RegisterPage implements OnInit {
   };
 
   fillAddress(cep){        
-    this.httpService.getHttpClient().get("/cep/" + cep + "/json/")
+    this.httpService.getHttpClient().get("https://viacep.com.br/ws/" + cep + "/json/")
        .subscribe((result: any) => {
-         console.log(result.logradouro);
+
+         if(result.erro == true){//ViaCep retorna boolean erro quando nao encontra cep
+          this.toastNotify("Não foi possível recuperar informações para este CEP.");          
+          this.cepWorked = false;         
+
+         }
+         else {
+
+          this.logradouroInput = result.logradouro;
+          this.cidadeInput = result.localidade;
+          this.ufInput = result.uf;         
+
+          this.cepWorked = true;          
+         }
 
        },
        (error: any) => {
-          console.log(error);
+          this.toastNotify("Não foi possível recuperar informações para este CEP.");          
+          this.cepWorked = false;
        })
 
   }
@@ -158,7 +175,7 @@ export class RegisterPage implements OnInit {
 
   async toastNotify(message : string){
     const toast = await this.toastController.create({            
-      duration:  10, 
+      duration:  1000, 
       message: message,
       position: 'bottom'      
     });
