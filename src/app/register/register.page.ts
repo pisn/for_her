@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {CognitoServiceService} from '../cognito-service.service';
 import { GeneralUtilitiesModule} from '../general-utilities/general-utilities.module';
 import { NavController, ToastController } from '@ionic/angular';
@@ -32,7 +32,9 @@ export class RegisterPage implements OnInit {
   ufInput: string;
   emailInput : string;
   senhaInput : string;
-  cepWorked : boolean;  
+  cepWorked : boolean;
+  
+  @ViewChild("numeroInputEdit") public numeroInputRef: ElementRef;
 
   customMonthNames = [
     'Janeiro',
@@ -99,8 +101,9 @@ export class RegisterPage implements OnInit {
     if (!this.cpfInput) {
         return '';
     }
-    let val = this.cpfInput.toString();        
-    const parts = this.unFormat(val).split(this.DECIMAL_SEPARATOR)
+    let val = this.cpfInput.toString();            
+    
+    const parts = this.unFormat(val).split(this.DECIMAL_SEPARATOR);
 
     this.maskedId = this.cpf_mask(parts[0]);
 
@@ -137,7 +140,9 @@ export class RegisterPage implements OnInit {
           this.cidadeInput = result.localidade;
           this.ufInput = result.uf;         
 
-          this.cepWorked = true;          
+          this.cepWorked = true;   
+          
+          this.numeroInputRef.nativeElement.focus();          
          }
 
        },
@@ -189,7 +194,7 @@ export class RegisterPage implements OnInit {
     
     var fullAdress = this.logradouroInput + ", " + this.numeroInput + (this.complementoInput != "" ? ", " + this.complementoInput : "") + ", " + this.cidadeInput + ", " + this.ufInput;
 
-    this.cognitoService.signUp(this.emailInput,this.nomeInput,birthFormatedString,this.senhaInput, this.cpfInput,fullAdress)
+    this.cognitoService.signUp(this.emailInput,this.nomeInput,birthFormatedString,this.senhaInput, this.unFormat(this.cpfInput.toString()),fullAdress)
         .then(res => {
           console.log("Register created at Amazon.")  
           this.navCtrl.back();

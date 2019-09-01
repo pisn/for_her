@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as AWSCognito from 'amazon-cognito-identity-js';
+import { reject } from 'q';
 
 
 @Injectable({
@@ -85,6 +86,54 @@ export class CognitoServiceService {
         }
       });
     });
+  }
+
+  resendEmail(email){
+    return new Promise((resolve,reject) => {
+
+      const userPool = new AWSCognito.CognitoUserPool(this._POOL_DATA);
+
+      const cognitoUser = new AWSCognito.CognitoUser({
+        Username: email,
+        Pool: userPool
+      });
+
+      cognitoUser.resendConfirmationCode( 
+        err => { 
+          if(err != null){
+            console.log(err);
+            reject(err);    
+          }      
+          else{
+            resolve();
+          }
+        }        
+      );
+
+    });
+  }
+
+  forgotPassword(email){
+    return new Promise((resolve,reject) => {
+      const userPool = new AWSCognito.CognitoUserPool(this._POOL_DATA);
+
+      const cognitoUser = new AWSCognito.CognitoUser({
+        Username: email,
+        Pool: userPool
+      });
+
+      cognitoUser.forgotPassword( 
+        {
+          onSuccess: result => {
+            resolve(result);
+          },
+          onFailure: err => {
+            console.log(err);
+            reject(err);
+          }
+        }
+      )
+     });
   }
 
   constructor() { 
