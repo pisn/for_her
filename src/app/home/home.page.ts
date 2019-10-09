@@ -76,8 +76,13 @@ export class HomePage {
   async presentAlertForgotPasswordSuccess () {
     const alert = await this.alertController.create({
       header: 'Senha reiniciada',
-      subHeader: 'Um email foi enviado com instruções para reiniciar sua senha',      
-      buttons: ['OK']
+      subHeader: 'Acesse seu email para obter o código de verificação.',      
+      buttons: [{
+                text: "Continuar",
+                handler: () => {
+                  this.navCtrl.navigateForward('/reset-password/' + this.emailInput);
+                }
+              }]
     });
 
     await alert.present();

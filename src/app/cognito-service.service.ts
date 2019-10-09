@@ -136,6 +136,30 @@ export class CognitoServiceService {
      });
   }
 
+  confirmCode(email, verificationCode, newPassword){
+    return new Promise((resolve,reject) => {
+      const userPool = new AWSCognito.CognitoUserPool(this._POOL_DATA);
+
+      const cognitoUser = new AWSCognito.CognitoUser({
+        Username: email,
+        Pool: userPool
+      });
+
+      cognitoUser.confirmPassword(verificationCode, newPassword, 
+        {
+          onSuccess: () => {
+            resolve(null);
+          },
+          onFailure: err => {
+            console.log(err);
+            reject(err);
+          }
+        });
+    });
+
+
+  }
+
   constructor() { 
     this.isConnected = false;
   }

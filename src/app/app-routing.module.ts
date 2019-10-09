@@ -19,7 +19,9 @@ const routes: Routes = [
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
   { path: 'services', loadChildren: './services/services.module#ServicesPageModule' },
   { path: 'subservices', loadChildren: './subservices/subservices.module#SubservicesPageModule' },
-  { path: 'subservices/:chosenService', loadChildren: './subservices/subservices.module#SubservicesPageModule' }
+  { path: 'subservices/:chosenService', loadChildren: './subservices/subservices.module#SubservicesPageModule' },
+  { path: 'reset-password', loadChildren: './reset-password/reset-password.module#ResetPasswordPageModule' },
+  { path: 'reset-password/:userEmail', loadChildren: './reset-password/reset-password.module#ResetPasswordPageModule' }
 ];
 
 @NgModule({
