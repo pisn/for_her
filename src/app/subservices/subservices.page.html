@@ -1,9 +1,43 @@
 <ion-header>
-  <ion-toolbar>        
-        <ion-title>{{chosenServiceDisplayText}}</ion-title>
+  <ion-toolbar>
+    <ion-title>{{chosenServiceDisplayText}}</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="start"></ion-menu-button>      
+    </ion-buttons>
+    <ion-buttons slot="end">            
+        <ion-menu-button menu="end">
+          <ion-icon name="notifications"></ion-icon>
+        </ion-menu-button>
+        <!-- <ion-icon slot="icon-only" name="notifications"></ion-icon> -->      
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
-</ion-content>
+<ion-content class="no-padding">
+    <ion-grid class="no-padding">
+      <ion-row>
+        <ion-searchbar animated showCancelButton placeholder="Procurar por Subserviços"></ion-searchbar>
+      </ion-row>
+    
+      
+        <ion-row *ngFor='let s of subServicesRows' >      
+              <ion-col *ngFor='let subService of subServices  | slice:s*3:s*3+3'>
+                <!-- <ion-button [routerLink]="'/subservices/' + service.name" [routerDirection] = "'forward'" size="small" (click)="listSubservices(service.name)" class="no-padding fullwidth services-button"> -->
+                  <ion-button class="no-padding fullwidth services-button">
+                  {{subService.caption}}
+                </ion-button>
+              </ion-col>                 
+    
+              <ng-container *ngIf ='s == subServicesRows.length -1'>            
+                <ion-col *ngFor='let r of dummyColumns' >
+                    
+                </ion-col>
+              </ng-container>
+            
+    
+        </ion-row>    
+      
+      
+    
+    </ion-grid>
+    </ion-content>

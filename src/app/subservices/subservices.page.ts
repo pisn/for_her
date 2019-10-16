@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import {CognitoServiceService} from '../cognito-service.service'
 import {HttpService} from '../http.service';
@@ -25,8 +24,12 @@ export class SubservicesPage implements OnInit {
     {name: 'televisao',displayText:'Televisão'},
     {name: 'iluminacao',displayText:'Iluminação'}
   ]
+
+  private subServicesRows : Array<number>;
+  private subServices : Array<JSON>;
+  private dummyColumns: Array<number>;
   
-  constructor(private route: ActivatedRoute, private cognitoService: CognitoServiceService, private httpService : HttpService) { 
+  constructor(private route: ActivatedRoute, private cognitoService: CognitoServiceService, private httpService : HttpService,private zone:NgZone) { 
 
   } 
 
@@ -39,9 +42,13 @@ export class SubservicesPage implements OnInit {
       }
     });   
 
-    this.getSubservices().then((result : any) => {
-        console.log("Result Arrived");        
-        console.log(result);
+    this.getSubservices().then((result : any) => {        
+          console.log("Result Arrived");        
+          console.log(result.Items);        
+          this.subServices = result.Items;
+          this.subServicesRows = Array.from(Array(Math.ceil(this.services.length/3))).map((x,i) => i); //Dividindo sevicos em linhas com tres servicos cada
+          this.dummyColumns = Array.from(Array(3 - (this.services.length % 3))).map((x,i) => i); //Ultima linha pode ter menos servicos, caso nao seja multiplo de 3        
+        
     });
     
   }
