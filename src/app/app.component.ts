@@ -12,16 +12,47 @@ import { CognitoServiceService } from './cognito-service.service';
 export class AppComponent {
   public appPages = [
     {
-      title: 'Home',
-      url: '/home',
-      icon: 'home'
+      title: 'Meu Perfil',
+      url: '/perfil',
+      icon:'person',
+      restricted: true
     },
     {
-      title: 'List',
-      url: '/list',
-      icon: 'list'
+      title: 'Home',
+      url: '/home',
+      icon: 'home',
+      restricted: false
+    },    
+    {
+      title: 'Favoritos',
+      url: '/favorites',
+      icon:'star',
+      restricted: true
+    },
+    {
+      title: 'Ordens de Serviço',
+      url: '/myorders',
+      icon:'list',
+      restricted: true
+    },
+    {
+      title: 'Pagamento',
+      url: '/payment',
+      icon:'card',
+      restricted: true
+    },
+    {
+      title: 'Logout',
+      url: '/logout',
+      icon:'log-out',
+      restricted: true
     }
+    
   ];
+
+  isLogged(){
+    return this.cognitoService.isConnected;
+  }
 
   constructor(
     private platform: Platform,
