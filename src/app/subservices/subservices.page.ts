@@ -15,16 +15,6 @@ export class SubservicesPage implements OnInit {
   chosenService: string;
   chosenServiceDisplayText: string;  
 
-  private services = [
-    {name: 'eletrica',displayText:'Elétrica'},
-    {name: 'hidraulica',displayText:'Hidráulica'},
-    {name: 'informatica',displayText:'Informática'},
-    {name: 'linhaBranca',displayText:'Linha Branca'},
-    {name: 'automotiva',displayText:'Automotiva'},
-    {name: 'televisao',displayText:'Televisão'},
-    {name: 'iluminacao',displayText:'Iluminação'}
-  ]
-
   private subServicesRows : Array<number>;
   private subServices : Array<JSON>;
   private dummyColumns: Array<number>;
@@ -46,8 +36,8 @@ export class SubservicesPage implements OnInit {
           console.log("Result Arrived");        
           console.log(result.Items);        
           this.subServices = result.Items;
-          this.subServicesRows = Array.from(Array(Math.ceil(this.services.length/3))).map((x,i) => i); //Dividindo sevicos em linhas com tres servicos cada
-          this.dummyColumns = Array.from(Array(3 - (this.services.length % 3))).map((x,i) => i); //Ultima linha pode ter menos servicos, caso nao seja multiplo de 3        
+          this.subServicesRows = Array.from(Array(Math.ceil(this.subServices.length/3))).map((x,i) => i); //Dividindo sevicos em linhas com tres servicos cada
+          this.dummyColumns = Array.from(Array(3 - (this.subServices.length % 3))).map((x,i) => i); //Ultima linha pode ter menos servicos, caso nao seja multiplo de 3        
         
     });
     
