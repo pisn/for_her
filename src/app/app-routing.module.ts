@@ -21,7 +21,9 @@ const routes: Routes = [
   { path: 'subservices', loadChildren: './subservices/subservices.module#SubservicesPageModule' },
   { path: 'subservices/:chosenService', loadChildren: './subservices/subservices.module#SubservicesPageModule' },
   { path: 'reset-password', loadChildren: './reset-password/reset-password.module#ResetPasswordPageModule' },
-  { path: 'reset-password/:userEmail', loadChildren: './reset-password/reset-password.module#ResetPasswordPageModule' }
+  { path: 'reset-password/:userEmail', loadChildren: './reset-password/reset-password.module#ResetPasswordPageModule' },
+  { path: 'new-order', loadChildren: './new-order/new-order.module#NewOrderPageModule' },
+  { path: 'search-prestador', loadChildren: './search-prestador/search-prestador.module#SearchPrestadorPageModule' }
 ];
 
 @NgModule({
