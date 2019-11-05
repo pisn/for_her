@@ -21,11 +21,12 @@
     
       
         <ion-row *ngFor='let s of subServicesRows' >      
-              <ion-col *ngFor='let subService of subServices  | slice:s*3:s*3+3'>
-                <!-- <ion-button [routerLink]="'/subservices/' + service.name" [routerDirection] = "'forward'" size="small" (click)="listSubservices(service.name)" class="no-padding fullwidth services-button"> -->
-                  <ion-button class="no-padding fullwidth services-button" [routerLink]="'/search-prestador/'" [routerDirection] = "'forward'">
-                  {{subService.caption}}
-                </ion-button>
+              <ion-col size="4" *ngFor='let subService of subServices  | slice:s*3:s*3+3'>       
+
+                <figure class="services-button fullwidth no-padding">              
+                    <img [src]="'../../assets/pictures/' + subService.subservice + '.svg'" size="small" alt={{subService.caption}} [routerLink]="'/search-prestador/'" [routerDirection] = "'forward'">                          
+                    <figcaption>{{subService.subservice}}</figcaption>
+                  </figure> 
               </ion-col>                 
     
               <ng-container *ngIf ='s == subServicesRows.length -1'>            
