@@ -29,8 +29,8 @@ datePickerObj: any = {
   disableWeekDays: [0,1], // default []
   mondayFirst: false, // default false
   setLabel: 'S',  // default 'Set'
-  todayLabel: 'T', // default 'Today'
-  closeLabel: 'C', // default 'Close'
+  todayLabel: 'Hoje', // default 'Today'
+  closeLabel: 'Voltar', // default 'Close'
   disabledDates: this.disabledDates, // default []
   titleLabel: 'Dia do serviço', // default null
   monthsList: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
@@ -49,8 +49,8 @@ datePickerObj: any = {
     color: '' // Default ''
   },
   arrowNextPrev: {
-    nextArrowSrc: 'assets/images/arrow_right.svg',
-    prevArrowSrc: 'assets/images/arrow_left.svg'
+    nextArrowSrc: '../../assets/shapes/right-arrow.svg',
+    prevArrowSrc: '../../assets/shapes/left-arrow.svg',
   }, // This object supports only SVG files.
   highlightedDates: [
    { date: new Date('2019-09-10'), color: '#ee88bf', fontColor: '#fff' },
