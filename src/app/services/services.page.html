@@ -21,14 +21,15 @@
 
   
     <ion-row *ngFor='let s of servicesRows' >      
-          <ion-col *ngFor='let service of services | slice:s*3:s*3+3'>
-            <ion-button [routerLink]="'/subservices/' + service.service" [routerDirection] = "'forward'" size="small" (click)="listSubservices(service.service)" class="no-padding fullwidth services-button">
-              {{service.caption}}
-            </ion-button>
+          <ion-col  size="4" *ngFor='let service of services | slice:s*3:s*3+3'>            
+            <figure class="services-button fullwidth no-padding">              
+              <img [src]="'../../assets/pictures/' + service.service + '.svg'" (click)="listSubservices(service.service)" [routerDirection] = "'forward'" size="small" [routerLink]="'/subservices/' + service.service" alt={{service.caption}}>                          
+              <figcaption>{{service.caption}}</figcaption>
+            </figure> 
           </ion-col>                 
 
           <ng-container *ngIf ='s == servicesRows.length -1'>            
-            <ion-col *ngFor='let r of dummyColumns' >
+            <ion-col size="4" *ngFor='let r of dummyColumns' >
                 
             </ion-col>
           </ng-container>

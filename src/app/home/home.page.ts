@@ -102,7 +102,7 @@ export class HomePage {
 
   login(){           
     
-    this.CognitoService.authenticate(this.emailInput,this.passwordInput)
+    this.CognitoService.authenticate("pedro.isn1@gmail.com","Gbm@2018")//authenticate(this.emailInput,this.passwordInput)
       .then(res=> {
          console.log("Access Token received from Amazon.");                  
          this.navCtrl.navigateForward('/services');
