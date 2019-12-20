@@ -23,7 +23,9 @@ const routes: Routes = [
   { path: 'reset-password', loadChildren: './reset-password/reset-password.module#ResetPasswordPageModule' },
   { path: 'reset-password/:userEmail', loadChildren: './reset-password/reset-password.module#ResetPasswordPageModule' },
   { path: 'new-order', loadChildren: './new-order/new-order.module#NewOrderPageModule' },
-  { path: 'search-prestador', loadChildren: './search-prestador/search-prestador.module#SearchPrestadorPageModule' }
+  { path: 'search-prestador', loadChildren: './search-prestador/search-prestador.module#SearchPrestadorPageModule' },
+  { path: 'my-orders', loadChildren: './my-orders/my-orders.module#MyOrdersPageModule' },
+  { path: 'perfil', loadChildren: './perfil/perfil.module#PerfilPageModule' }
 ];
 
 @NgModule({

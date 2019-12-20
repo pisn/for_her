@@ -31,7 +31,7 @@ export class AppComponent {
     },
     {
       title: 'Ordens de Serviço',
-      url: '/myorders',
+      url: '/my-orders',
       icon:'list',
       restricted: true
     },
