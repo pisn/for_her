@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AlertController, NavController} from '@ionic/angular';
 
 @Component({
   selector: 'app-new-order',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewOrderPage implements OnInit {
 
-  constructor() { }
+  constructor(private navController : NavController, private alertController : AlertController) { }
 
   ngOnInit() {
   }
@@ -60,5 +61,27 @@ datePickerObj: any = {
    fontColor: '#ee88bf' // Default null
   } // Default {}
 };
+
+async presentAlertSuccess() {
+    
+    const alert = await this.alertController.create({
+      header: 'Agendamento confirmado',      
+      message: 'Aguarde o contato da prestadora.',
+      buttons: [{
+        text: "OK",
+        handler: () => {
+          this.navController.navigateBack("/services");
+        }
+      }]
+    });
+    
+
+    await alert.present();
+  }
+
+  confirmarAgendamento(){
+    this.presentAlertSuccess();
+
+  }
 
 }

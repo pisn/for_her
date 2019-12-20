@@ -54,7 +54,22 @@
       </ion-col>
     </ion-row>
     <ion-row>
+      <ion-item>
+        <ion-label text-wrap position="floating">Selecione a data</ion-label>
         <li-ionic4-datepicker [(ngModel)]="mydate"   [inputDateConfig]="datePickerObj"></li-ionic4-datepicker>
+      </ion-item>        
+    </ion-row>
+    <ion-row>           
+      <ion-select placeholder="Selecione o horario">
+        <ion-select-option value="8:00">8:00</ion-select-option>
+        <ion-select-option value="8:30">8:30</ion-select-option>
+        <ion-select-option value="9:00">9:00</ion-select-option>          
+        <ion-select-option value="9:30">9:30</ion-select-option>          
+        <ion-select-option value="11:30">11:30</ion-select-option>          
+      </ion-select>     
+    </ion-row>
+    <ion-row>
+      <ion-button (click)="confirmarAgendamento()">Confirmar agendamento</ion-button>         
     </ion-row>
   </ion-grid>
   
