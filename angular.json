@@ -109,6 +109,11 @@
               },
               {
                 "glob": "**/*",
+                "input": "src/assets/icon",
+                "output": "/"
+              },
+              {
+                "glob": "**/*",
                 "input": "src/assets",
                 "output": "/assets"
               }
