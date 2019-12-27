@@ -21,7 +21,7 @@ export class ServicesPage implements OnInit {
    } 
 
   private services : Array<JSON>;
-  private servicesRows : Array<number>;
+   servicesRows : Array<number>;
   private dummyColumns : Array<number>;
 
   ngOnInit() {

@@ -17,7 +17,7 @@ export class SubservicesPage implements OnInit {
 
   private services : Array<JSON>;
 
-  private subServicesRows : Array<number>;
+  subServicesRows : Array<number>;
   private subServices : Array<JSON>;
   private dummyColumns: Array<number>;
   

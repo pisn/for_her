@@ -51,7 +51,7 @@ export class RegisterPage implements OnInit {
     'Dezembro'
   ];
 
-  private ufs= [
+  ufs= [
       'AC',
       'AL',
       'AP',
