@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>{{chosenServiceDisplayText}}</ion-title>
     <ion-buttons slot="start">
-      <ion-menu-button menu="start"></ion-menu-button>      
+      <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">            
         <ion-menu-button menu="end">
@@ -24,7 +24,7 @@
               <ion-col size="4" *ngFor='let subService of subServices  | slice:s*3:s*3+3'>       
 
                 <figure class="services-button fullwidth no-padding">              
-                    <img [src]="'../../assets/pictures/' + subService.subservice + '.svg'" size="small" alt={{subService.caption}} [routerLink]="'/search-prestador/'" [routerDirection] = "'forward'">                          
+                    <img [src]="'../../assets/pictures/' + subService.subservice + '.svg'" size="small" alt={{subService.caption}} [routerLink]="'/subservice-details/' + subService.subservice" [routerDirection] = "'forward'">                          
                     <figcaption>{{subService.caption}}</figcaption>
                   </figure> 
               </ion-col>                 

@@ -25,7 +25,8 @@ const routes: Routes = [
   { path: 'new-order', loadChildren: './new-order/new-order.module#NewOrderPageModule' },
   { path: 'search-prestador', loadChildren: './search-prestador/search-prestador.module#SearchPrestadorPageModule' },
   { path: 'my-orders', loadChildren: './my-orders/my-orders.module#MyOrdersPageModule' },
-  { path: 'perfil', loadChildren: './perfil/perfil.module#PerfilPageModule' }
+  { path: 'perfil', loadChildren: './perfil/perfil.module#PerfilPageModule' },
+  { path: 'subservice-details/:chosenSubservice', loadChildren: './subservice-details/subservice-details.module#SubserviceDetailsPageModule' }
 ];
 
 @NgModule({
