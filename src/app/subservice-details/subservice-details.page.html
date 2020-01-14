@@ -17,11 +17,19 @@
     <ion-item>
       <b>Selecione os serviços que deseja contratar:</b>
     </ion-item>    
-    <ion-item *ngFor="let d of subserviceDetails">      
+    <ion-item *ngFor="let d of subserviceDetails; let i = index">      
       <ion-label>{{d.caption}}</ion-label>
-      <ion-checkbox slot="start"></ion-checkbox>
+      <ion-checkbox (click)="selectSubserviceDetail(i)" slot="start"></ion-checkbox>
       <ion-note slot="end">R${{d.preco}}</ion-note>
     </ion-item>
-  </ion-list> 
+  </ion-list>
+  <ion-grid>
+    <ion-row>
+      <ion-col><ion-label>Preço total: R${{totalValue}}</ion-label></ion-col>
+      <ion-col><ion-button [routerLink]="'/search-prestador'" [routerDirection]="'forward'" >Confirmar</ion-button></ion-col>
+    </ion-row>    
+  </ion-grid>  
+  
+
 
 </ion-content>

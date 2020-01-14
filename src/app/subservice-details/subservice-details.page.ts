@@ -16,15 +16,21 @@ export class SubserviceDetailsPage implements OnInit {
   private API_URL = 'https://58jgjsy2y5.execute-api.ca-central-1.amazonaws.com/beta/';                     
 
   chosenSubservice: string;
-  subserviceDetails: Array<JSON>;
+  subserviceDetails: Array<any>;
+  selectedDetails : Array<boolean>;
+  totalValue : number;
 
   constructor(private route: ActivatedRoute, private cognitoService: CognitoServiceService, private httpService : HttpService) { }
 
   ngOnInit() {
+    this.totalValue = 0;
+    
     this.chosenSubservice = this.route.snapshot.paramMap.get('chosenSubservice');
 
     this.getSubservices().then((result: any) => {
       this.subserviceDetails = result.Items;
+      this.selectedDetails = new Array<boolean>(result.Items.length);
+      
     });
   }
 
@@ -50,6 +56,19 @@ export class SubserviceDetailsPage implements OnInit {
               });
       
    });
+}
+
+selectSubserviceDetail(selectedIndex){
+  this.selectedDetails[selectedIndex] = !this.selectedDetails[selectedIndex];
+
+  this.totalValue = 0;
+
+  this.selectedDetails.forEach((value: boolean, index : number) => {
+    if(value){
+      this.totalValue += this.subserviceDetails[index].preco;
+    }
+  });
+
 }
 
   
