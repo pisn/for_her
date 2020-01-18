@@ -74,18 +74,16 @@ selectSubserviceDetail(selectedIndex){
 
 
 searchPrestador(){  
-
   let navigationExtras: NavigationExtras = {
     state: {
       chosenSubservice : this.chosenSubservice,
-      subserviceDetails: this.subserviceDetails,
-      selectedDetails : this.selectedDetails
+       subserviceDetails: this.subserviceDetails.filter(function(x,i) { return this[i] }, this.selectedDetails),      
+      preco: this.totalValue
     }
     
   };  
 
-  this.router.navigate(['search-prestador'],navigationExtras);
-  
+  this.router.navigate(['search-prestador'],navigationExtras);  
 }
 
   

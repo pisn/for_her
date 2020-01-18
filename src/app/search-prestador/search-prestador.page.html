@@ -6,7 +6,7 @@
 
 <ion-content>        
     <ion-card *ngFor="let prestadora of prestadoras">
-      <button ion-item [routerDirection]="'forward'" [routerLink]="'/new-order'">                
+      <button (click)="startNewOrder(prestadora)">
         <ion-card-content>
           <ion-grid>
               <ion-row>
@@ -20,7 +20,7 @@
                         {{convertedDistance(prestadora.distance)}}
                     </ion-row>
                     <ion-row>
-                        R$ 350,00
+                        {{formatPreco()}}
                     </ion-row>
                   </ion-grid>
                 </ion-col>                                 

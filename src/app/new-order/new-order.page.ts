@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AlertController, NavController} from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-order',
@@ -8,10 +9,22 @@ import {AlertController, NavController} from '@ionic/angular';
 })
 export class NewOrderPage implements OnInit {
 
-  constructor(private navController : NavController, private alertController : AlertController) { }
+  constructor(private navController : NavController, private alertController : AlertController, private router : Router) { }
+
+  preco: number;
+  prestadora: any;
+  chosenSubservice: string;
+  subserviceDetails: Array<any>;
 
   ngOnInit() {
+    this.preco = this.router.getCurrentNavigation().extras.state.preco;
+    this.prestadora = this.router.getCurrentNavigation().extras.state.prestadora;
+    this.chosenSubservice = this.router.getCurrentNavigation().extras.state.chosenSubservice;
+    this.subserviceDetails = this.router.getCurrentNavigation().extras.state.subserviceDetails;
+
   }
+
+
   myDate : Date;
   disabledDates: Date[] = [
       new Date(1545911005644),     

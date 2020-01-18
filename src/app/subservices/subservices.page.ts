@@ -41,9 +41,7 @@ export class SubservicesPage implements OnInit {
     
     
 
-    this.getSubservices().then((result : any) => {        
-          console.log("Result Arrived");        
-          console.log(result.Items);        
+    this.getSubservices().then((result : any) => {                  
           this.subServices = result.Items;
           this.subServicesRows = Array.from(Array(Math.ceil(this.subServices.length/3))).map((x,i) => i); //Dividindo sevicos em linhas com tres servicos cada
           this.dummyColumns = Array.from(Array(3 - (this.subServices.length % 3))).map((x,i) => i); //Ultima linha pode ter menos servicos, caso nao seja multiplo de 3        
