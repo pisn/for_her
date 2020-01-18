@@ -25,7 +25,7 @@ export class AwsApiConnectService {
       };              
       
       this.httpService.getHttpClient().get(this.API_URL + "prestadorasbysubservice?subservice=" + subservice,requestOptions)
-              .subscribe((result: any) => {                              
+              .subscribe((result: any) => {                    
                   resolve(result);                    
               },
               (error) => {                    
