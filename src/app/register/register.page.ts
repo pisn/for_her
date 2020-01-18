@@ -195,8 +195,7 @@ export class RegisterPage implements OnInit {
     var fullAdress = this.logradouroInput + ", " + this.numeroInput + (this.complementoInput != "" ? ", " + this.complementoInput : "") + ", " + this.cidadeInput + ", " + this.ufInput;
 
     this.cognitoService.signUp(this.emailInput,this.nomeInput,birthFormatedString,this.senhaInput, this.unFormat(this.cpfInput.toString()),fullAdress)
-        .then(res => {
-          console.log("Register created at Amazon.")  
+        .then(res => {          
           this.navCtrl.back();
           this.toastNotify("Conta criada. Para confirmar sua conta, siga as instruções enviadas por email");
         },

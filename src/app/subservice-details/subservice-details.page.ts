@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 import {CognitoServiceService} from '../cognito-service.service';
 import {HttpService} from '../http.service';
+
 
 @Component({
   selector: 'app-subservice-details',
@@ -20,7 +21,7 @@ export class SubserviceDetailsPage implements OnInit {
   selectedDetails : Array<boolean>;
   totalValue : number;
 
-  constructor(private route: ActivatedRoute, private cognitoService: CognitoServiceService, private httpService : HttpService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private cognitoService: CognitoServiceService, private httpService : HttpService) { }
 
   ngOnInit() {
     this.totalValue = 0;
@@ -69,6 +70,22 @@ selectSubserviceDetail(selectedIndex){
     }
   });
 
+}
+
+
+searchPrestador(){  
+
+  let navigationExtras: NavigationExtras = {
+    state: {
+      chosenSubservice : this.chosenSubservice,
+      subserviceDetails: this.subserviceDetails,
+      selectedDetails : this.selectedDetails
+    }
+    
+  };  
+
+  this.router.navigate(['search-prestador'],navigationExtras);
+  
 }
 
   

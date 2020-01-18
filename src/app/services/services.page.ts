@@ -25,9 +25,7 @@ export class ServicesPage implements OnInit {
   private dummyColumns : Array<number>;
 
   ngOnInit() {
-    this.getServices().then((result : any) => {        
-      console.log("Result Arrived");        
-      console.log(result.Items);        
+    this.getServices().then((result : any) => {            
       this.services = result.Items;
       this.servicesRows = Array.from(Array(Math.ceil(this.services.length/3))).map((x,i) => i); //Dividindo sevicos em linhas com tres servicos cada
       this.dummyColumns = Array.from(Array(3 - (this.services.length % 3))).map((x,i) => i); //Ultima linha pode ter menos servicos, caso nao seja multiplo de 3        
@@ -37,13 +35,7 @@ export class ServicesPage implements OnInit {
   }
 
   listSubservices(chosenService: string){
-    // let navigationExtras: NavigationExtras = {
-    //   queryParams: {
-    //       service: service          
-      
-    //   }  
-    // }
-    console.log('Service ' + chosenService);   
+    
       
   }
 

@@ -18,9 +18,7 @@ export class ResetPasswordPage implements OnInit {
   constructor(private route: ActivatedRoute,public navCtrl : NavController,  private cognitoService : CognitoServiceService, private alertController : AlertController) { }
 
   ngOnInit() {
-    this.userEmail = this.route.snapshot.paramMap.get('userEmail');
-
-    console.log('Resetting password for user: ' + this.userEmail);  
+    this.userEmail = this.route.snapshot.paramMap.get('userEmail');  
 
   }
 

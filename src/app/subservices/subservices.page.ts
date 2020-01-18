@@ -28,12 +28,11 @@ export class SubservicesPage implements OnInit {
   ngOnInit() {        
     this.chosenService = this.route.snapshot.paramMap.get('chosenService');
     
-    this.getServices().then((result: any) => {
-      console.log('Services arrived');
+    this.getServices().then((result: any) => {      
       this.services = result.Items;
       
       this.services.forEach(element => {
-        console.log(element);
+        
         if (element['service']  == this.chosenService){
           this.chosenServiceDisplayText = element['caption'];
         }
