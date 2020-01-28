@@ -21,28 +21,31 @@
     </ion-row>
     <ion-row>
       <ion-col>
-          <ion-card >                            
-                <ion-card-content>
-                    <ion-grid>
+        <ion-card >          
+            <ion-card-content>
+              <ion-grid>
+                  <ion-row>
+                    <ion-col><ion-img src="/assets/testAvatar.png" ></ion-img></ion-col>
+                    <ion-col size="9"> 
+                      <ion-grid>
                         <ion-row>
-                          <ion-col><ion-img src="/assets/testAvatar.png" ></ion-img></ion-col>
-                          <ion-col size="9"> 
-                            <ion-grid>
-                              <ion-row>
-                                Camilla Soares
-                              </ion-row>
-                              <ion-row>
-                                  535m
-                              </ion-row>
-                              <ion-row>
-                                 R$350,00
-                              </ion-row>
-                            </ion-grid>
-                          </ion-col>                    
+                          {{prestadora.nome}}
                         </ion-row>
-                    </ion-grid>
-                </ion-card-content>               
-          </ion-card>
+                        <ion-row>
+                          <ion-icon name="star"></ion-icon><font color="gray">{{prestadora.rating}}</font>                      
+                        </ion-row>
+                        <ion-row>
+                            {{convertedDistance(prestadora.distance)}}
+                        </ion-row>
+                        <ion-row>
+                            {{formatPreco()}}
+                        </ion-row>
+                      </ion-grid>
+                    </ion-col>                                 
+                  </ion-row>
+              </ion-grid>
+          </ion-card-content>            
+        </ion-card>  
       </ion-col>
     </ion-row>
     <ion-row>
