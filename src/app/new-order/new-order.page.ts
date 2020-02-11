@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {AlertController, NavController} from '@ionic/angular';
+import {AwsApiConnectService} from '../aws-api-connect.service';
 import { Router } from '@angular/router';
+import { Time } from '@angular/common';
 
 @Component({
   selector: 'app-new-order',
@@ -9,30 +11,22 @@ import { Router } from '@angular/router';
 })
 export class NewOrderPage implements OnInit {
 
-  constructor(private navController : NavController, private alertController : AlertController, private router : Router) { }
+  constructor(private navController : NavController, private alertController : AlertController, private router : Router, private awsApi : AwsApiConnectService) { }
 
   preco: number;
   prestadora: any;
   chosenSubservice: string;
   subserviceDetails: Array<any>;
+  chosenDate : Date;  
+  serviceDescription: string;
 
-  ngOnInit() {
+  ngOnInit() {    
     this.preco = this.router.getCurrentNavigation().extras.state.preco;
     this.prestadora = this.router.getCurrentNavigation().extras.state.prestadora;
     this.chosenSubservice = this.router.getCurrentNavigation().extras.state.chosenSubservice;
-    this.subserviceDetails = this.router.getCurrentNavigation().extras.state.subserviceDetails;
-
+    this.subserviceDetails = this.router.getCurrentNavigation().extras.state.subserviceDetails;    
   }
-
-
-  myDate : Date;
-  disabledDates: Date[] = [
-      new Date(1545911005644),     
-      new Date(),     
-      new Date(2018, 12, 12), // Months are 0-based, this is August, 10th.     
-      new Date('Wednesday, December 26, 2018'), // Works with any valid Date formats like long format     
-      new Date('12-14-2018'), // Short format
-  ];
+  
   
 datePickerObj: any = {
   inputDate:new Date(), // default new Date()
@@ -40,12 +34,12 @@ datePickerObj: any = {
   toDate: new Date().setDate(new Date().getDate() + 90), // default null
   showTodayButton: true, // default true
   closeOnSelect: true, // default false
-  disableWeekDays: [0,1], // default []
+  disableWeekDays: [0,6], // default []
   mondayFirst: false, // default false
   setLabel: 'S',  // default 'Set'
   todayLabel: 'Hoje', // default 'Today'
   closeLabel: 'Voltar', // default 'Close'
-  disabledDates: this.disabledDates, // default []
+  disabledDates: [],
   titleLabel: 'Dia do serviço', // default null
   monthsList: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
   weeksList: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"],
@@ -91,9 +85,16 @@ async presentAlertSuccess() {
 
     await alert.present();
   }
-
+  
   confirmarAgendamento(){
-    this.presentAlertSuccess();
+    this.presentAlertSuccess();    
+    this.awsApi.setNewServiceOrder(this.subserviceDetails, this.chosenDate, this.serviceDescription )
+    .then( (v: any) => {
+        console.log("Retornou certo");
+    },
+    (err: any) => {
+      console.log("Deu merda");
+    });
 
   }
 

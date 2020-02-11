@@ -7,7 +7,7 @@ import { reject } from 'q';
   providedIn: 'root'
 })
 export class CognitoServiceService {
-
+  user : AWSCognito.CognitoUser;
   userSession : AWSCognito.CognitoUserSession;
   isConnected : boolean;
 
@@ -21,6 +21,9 @@ export class CognitoServiceService {
     return this.userSession;
   }
 
+  getUserId(){
+    return this.user.getUsername();
+  }
 
   signUp(email: string, name:string, birthDate:string, password: string, cpf: string,  address:string) {
     return new Promise((resolved, reject) => {
@@ -58,12 +61,13 @@ export class CognitoServiceService {
         Username: email,
         Pool: userPool
       });
-
+      
       cognitoUser.authenticateUser(authDetails, {
         onSuccess: result => {
           resolved(result);
           this.userSession = result;
           this.isConnected = true;
+          this.user = cognitoUser;
         },
         onFailure: err => {
           reject(err);

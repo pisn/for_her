@@ -115,8 +115,8 @@ export class SearchPrestadorPage implements OnInit {
         prestadora : prestadora
       }
     };
-
-    this.router.navigate(['new-order'], extras);
+    
+    this.router.navigate(['new-order'], extras);    
   }
 
 }

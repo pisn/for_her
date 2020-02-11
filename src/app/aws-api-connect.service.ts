@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpService} from './http.service';
 import { CognitoServiceService } from './cognito-service.service';
 import { HttpHeaders } from '@angular/common/http';
+import { Time } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,43 @@ export class AwsApiConnectService {
       };              
       
       this.httpService.getHttpClient().get(this.API_URL + "prestadorasbysubservice?subservice=" + subservice,requestOptions)
+              .subscribe((result: any) => {                    
+                  resolve(result);                    
+              },
+              (error) => {                    
+                  console.log(error);
+                  reject(error);
+              });
+      
+    });
+
+  }
+
+  setNewServiceOrder(subservices : Array<string>, chosenDate : Date, details: string){
+
+    return new Promise((resolve,reject) => {
+      var headersDict = {
+        'Accept': "application/json", 
+        'Authorization': this.cognitoService.getUserSession().getIdToken().getJwtToken().toString()
+      };
+      
+      var requestOptions = {
+        headers : new HttpHeaders(headersDict)
+      };              
+
+      var requestBody = {
+          table: "serviceOrders",
+          item: {
+            userId: this.cognitoService.getUserId(),
+            chosenSubservices: subservices,
+            chosenDate : chosenDate,
+            details : details            
+          }
+      };
+      
+      console.log(JSON.stringify(requestBody).toString());
+
+      this.httpService.getHttpClient().post(this.API_URL + "serviceorder", JSON.stringify(requestBody),requestOptions)
               .subscribe((result: any) => {                    
                   resolve(result);                    
               },
