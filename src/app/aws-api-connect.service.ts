@@ -13,7 +13,7 @@ export class AwsApiConnectService {
 
   constructor(private httpService : HttpService, private cognitoService : CognitoServiceService) { }
 
-  getPrestadorasBySubservice(subservice: string){
+  getPrestadorasBySubservice(serviceDetails: Array<string>){
 
     return new Promise((resolve,reject) => {
       var headersDict = {
@@ -25,7 +25,7 @@ export class AwsApiConnectService {
         headers : new HttpHeaders(headersDict)
       };              
       
-      this.httpService.getHttpClient().get(this.API_URL + "prestadorasbysubservice?subservice=" + subservice,requestOptions)
+      this.httpService.getHttpClient().get(this.API_URL + "prestadorasbysubservice?serviceDetails=" + JSON.stringify(serviceDetails),requestOptions)
               .subscribe((result: any) => {                    
                   resolve(result);                    
               },

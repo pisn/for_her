@@ -16,8 +16,7 @@ export class SearchPrestadorPage implements OnInit {
 
   chosenSubservice: string;
   subserviceDetails: Array<any>;
-  prestadoras: Array<any>;  
-  preco : number;
+  prestadoras: Array<any>;    
 
   constructor(private router: Router, private awsConnectService : AwsApiConnectService, private geolocation : Geolocation) 
   { 
@@ -25,16 +24,17 @@ export class SearchPrestadorPage implements OnInit {
   }
 
   ngOnInit() {    
-    this.chosenSubservice = this.router.getCurrentNavigation().extras.state.chosenSubservice;            
-    this.preco = this.router.getCurrentNavigation().extras.state.preco;
+    this.chosenSubservice = this.router.getCurrentNavigation().extras.state.chosenSubservice;                
     this.subserviceDetails = this.router.getCurrentNavigation().extras.state.subserviceDetails;
+    
+    let detailsNames = new  Array<string>();
+    this.subserviceDetails.forEach(d => {      
+      detailsNames.push(d.serviceDetail);
+    });
 
-    console.log("Preco:" + this.preco);
-    console.log(this.subserviceDetails);
+    this.awsConnectService.getPrestadorasBySubservice(detailsNames).then((result: any) => {           
 
-    this.awsConnectService.getPrestadorasBySubservice(this.chosenSubservice).then((result: any) => {      
-
-      this.prestadoras = this.orderedPrestadoras(result.Items[0].prestadoras).sort(function(a,b) {return a.distance - b.distance});
+      this.prestadoras = this.orderedPrestadoras(result).sort(function(a,b) {return a.distance - b.distance});
       
     }, 
     (error: any) => {
@@ -57,6 +57,8 @@ export class SearchPrestadorPage implements OnInit {
 
   orderedPrestadoras(prestadoras : any){   
 
+    //Obtendo distancia de cada prestadora ao usuário
+    
     let currentLocation : Geoposition;    
 
     let geoOptions : GeolocationOptions = {
@@ -70,7 +72,9 @@ export class SearchPrestadorPage implements OnInit {
       currentLocation = resp;      
 
       prestadoras.forEach(element => {               
-        element.distance = this.getDistance(currentLocation.coords.latitude,element.latitude ,currentLocation.coords.longitude, element.longitude);
+        console.log(element.nome + ' coordinates: ' + element.coordinates.latitude);
+
+        element.distance = this.getDistance(currentLocation.coords.latitude,element.coordinates.latitude ,currentLocation.coords.longitude, element.coordinates.longitude);
        });
        
      },
@@ -81,6 +85,24 @@ export class SearchPrestadorPage implements OnInit {
         console.log('Error returning location');
         console.log(error);
      });       
+
+
+     // Obtendo preco de cada prestadora, por enquanto unificado
+
+     prestadoras.forEach(element => {
+        var summedPrice = 0;
+
+        this.subserviceDetails.forEach(s => {
+          console.log('Summing price for: ' + s);
+
+          summedPrice += element.priceTable[s.serviceDetail];
+        });
+
+        element.preco = summedPrice;
+
+     });
+
+
 
      return prestadoras;
 
@@ -96,13 +118,13 @@ export class SearchPrestadorPage implements OnInit {
     
   }
 
-  formatPreco(){
+  formatPreco(preco){
     let numberFormat : Intl.NumberFormatOptions = {
       style : "currency",
       currency : "BRL"
     };
 
-    return this.preco.toLocaleString("pt-BR",numberFormat);
+    return preco.toLocaleString("pt-BR",numberFormat);
   }
 
   startNewOrder(prestadora){
@@ -110,8 +132,7 @@ export class SearchPrestadorPage implements OnInit {
     let extras : NavigationExtras = {
       state : {
         subserviceDetails: this.subserviceDetails,
-        chosenSubservice : this.chosenSubservice,
-        preco : this.preco, 
+        chosenSubservice : this.chosenSubservice,        
         prestadora : prestadora
       }
     };

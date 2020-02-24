@@ -61,15 +61,6 @@ export class SubserviceDetailsPage implements OnInit {
 
 selectSubserviceDetail(selectedIndex){
   this.selectedDetails[selectedIndex] = !this.selectedDetails[selectedIndex];
-
-  this.totalValue = 0;
-
-  this.selectedDetails.forEach((value: boolean, index : number) => {
-    if(value){
-      this.totalValue += this.subserviceDetails[index].preco;
-    }
-  });
-
 }
 
 
@@ -77,8 +68,8 @@ searchPrestador(){
   let navigationExtras: NavigationExtras = {
     state: {
       chosenSubservice : this.chosenSubservice,
-       subserviceDetails: this.subserviceDetails.filter(function(x,i) { return this[i] }, this.selectedDetails),      
-      preco: this.totalValue
+       subserviceDetails: this.subserviceDetails.filter(function(x,i) { return this[i] }, this.selectedDetails)
+      
     }
     
   };  

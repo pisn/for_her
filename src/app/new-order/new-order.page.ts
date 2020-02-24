@@ -20,11 +20,20 @@ export class NewOrderPage implements OnInit {
   chosenDate : Date;  
   serviceDescription: string;
 
-  ngOnInit() {    
-    this.preco = this.router.getCurrentNavigation().extras.state.preco;
+  ngOnInit() {         
     this.prestadora = this.router.getCurrentNavigation().extras.state.prestadora;
     this.chosenSubservice = this.router.getCurrentNavigation().extras.state.chosenSubservice;
-    this.subserviceDetails = this.router.getCurrentNavigation().extras.state.subserviceDetails;    
+    this.subserviceDetails = this.router.getCurrentNavigation().extras.state.subserviceDetails;     
+  
+    var summedPrice = 0;
+
+    this.subserviceDetails.forEach(s => {
+      console.log('Summing price for: ' + s);
+
+      summedPrice += this.prestadora.priceTable[s.serviceDetail];
+    });
+
+    this.preco = summedPrice;   
   }
   
   
