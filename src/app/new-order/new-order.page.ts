@@ -17,6 +17,7 @@ export class NewOrderPage implements OnInit {
   prestadora: any;
   chosenSubservice: string;
   subserviceDetails: Array<any>;
+  subservicesPrices: Array<any>;
   chosenDate : Date;  
   serviceDescription: string;
 
@@ -24,16 +25,21 @@ export class NewOrderPage implements OnInit {
     this.prestadora = this.router.getCurrentNavigation().extras.state.prestadora;
     this.chosenSubservice = this.router.getCurrentNavigation().extras.state.chosenSubservice;
     this.subserviceDetails = this.router.getCurrentNavigation().extras.state.subserviceDetails;     
-  
+    this.subservicesPrices = new Array();
+
     var summedPrice = 0;
 
     this.subserviceDetails.forEach(s => {
       console.log('Summing price for: ' + s);
 
       summedPrice += this.prestadora.priceTable[s.serviceDetail];
-    });
 
+      this.subservicesPrices.push({"caption": s.caption,"preco": this.prestadora.priceTable[s.serviceDetail] });
+
+    });
+    
     this.preco = summedPrice;   
+
   }
   
   
@@ -107,13 +113,17 @@ async presentAlertSuccess() {
 
   }
 
-  formatPreco(){
+  formatPreco(preco){
     let numberFormat : Intl.NumberFormatOptions = {
       style : "currency",
       currency : "BRL"
     };
 
-    return this.preco.toLocaleString("pt-BR",numberFormat);
+    return preco.toLocaleString("pt-BR",numberFormat);
+  }
+
+  formatPrecoTotal(){
+    return this.formatPreco(this.preco);
   }
 
   convertedDistance(distance: number){

@@ -36,14 +36,23 @@
                         </ion-row>
                         <ion-row>
                             {{convertedDistance(prestadora.distance)}}
-                        </ion-row>
-                        <ion-row>
-                            {{formatPreco()}}
-                        </ion-row>
+                        </ion-row>                        
                       </ion-grid>
                     </ion-col>                                 
                   </ion-row>
               </ion-grid>
+              <ion-row >
+                <ion-list>                            
+                  <ion-item *ngFor="let subservice of subservicesPrices">      
+                    <ion-label>{{subservice.caption}}</ion-label>
+                    <ion-note slot="end">{{formatPreco(subservice.preco)}}</ion-note>                              
+                  </ion-item>
+                  <ion-item>
+                    <ion-label><b>Total: </b></ion-label>
+                    <ion-note slot="end"><b>{{formatPrecoTotal()}}</b></ion-note>
+                  </ion-item>
+                </ion-list>
+              </ion-row>
           </ion-card-content>            
         </ion-card>  
       </ion-col>
