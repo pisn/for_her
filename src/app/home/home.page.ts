@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import {CognitoServiceService} from '../cognito-service.service'
 import { stringify } from '@angular/core/src/render3/util';
 import { reject } from 'q';
-import { NavController, AlertController } from '@ionic/angular';
+import { NavController, AlertController, ModalController } from '@ionic/angular';
 import { resolve } from 'url';
+import { LocationSelectPage } from '../location-select/location-select.page';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,8 @@ export class HomePage {
   emailInput:string;
   passwordInput:string;
 
-  constructor(public CognitoService: CognitoServiceService, public navCtrl : NavController, public alertController : AlertController) {}
+  constructor(public CognitoService: CognitoServiceService, public navCtrl : NavController, public alertController : AlertController, public modalCtrl : ModalController) {}
+
 
   async presentAlertUserNotFound() {
     const alert = await this.alertController.create({
