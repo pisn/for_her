@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {ModalController} from '@ionic/angular';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 import {CognitoServiceService} from '../cognito-service.service';
 import {HttpService} from '../http.service';
+import {LocationSelectPage} from '../location-select/location-select.page';
 
 
 @Component({
@@ -21,7 +23,7 @@ export class SubserviceDetailsPage implements OnInit {
   selectedDetails : Array<boolean>;
   totalValue : number;
 
-  constructor(private route: ActivatedRoute, private router: Router, private cognitoService: CognitoServiceService, private httpService : HttpService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private cognitoService: CognitoServiceService, private httpService : HttpService, private modalCtrl : ModalController) { }
 
   ngOnInit() {
     this.totalValue = 0;
@@ -64,11 +66,27 @@ selectSubserviceDetail(selectedIndex){
 }
 
 
-searchPrestador(){  
+async launchLocationPage(){
+
+  let modal = await this.modalCtrl.create({
+    component: LocationSelectPage      
+  });
+
+  await modal.present();
+  
+  modal.onDidDismiss().then ((location) => {
+    console.log(location.data);
+    this.searchPrestador(location.data)
+  })
+}
+
+
+searchPrestador(location){  
   let navigationExtras: NavigationExtras = {
     state: {
       chosenSubservice : this.chosenSubservice,
-       subserviceDetails: this.subserviceDetails.filter(function(x,i) { return this[i] }, this.selectedDetails)
+       subserviceDetails: this.subserviceDetails.filter(function(x,i) { return this[i] }, this.selectedDetails),
+       location: location
       
     }
     

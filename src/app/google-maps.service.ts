@@ -89,9 +89,22 @@ export class GoogleMapsService {
     this.mapInitialised = true;
 
     return new Promise((resolve) => {      
-      this.geolocation.getCurrentPosition().then((position) => {
+      // this.geolocation.getCurrentPosition().then((position) => {
 
-        let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      //   let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+      //   let mapOptions = {
+      //     center: latLng,
+      //     zoom: 15,
+      //     mapTypeId: google.maps.MapTypeId.ROADMAP
+      //   }
+
+      //   this.map = new google.maps.Map(this.mapElement, mapOptions);
+      //   resolve(true);
+
+      // });
+
+        let latLng = new google.maps.LatLng(-23, -46);
 
         let mapOptions = {
           center: latLng,
@@ -101,19 +114,6 @@ export class GoogleMapsService {
 
         this.map = new google.maps.Map(this.mapElement, mapOptions);
         resolve(true);
-
-      });
-
-        // let latLng = new google.maps.LatLng(-23, -46);
-
-        // let mapOptions = {
-        //   center: latLng,
-        //   zoom: 15,
-        //   mapTypeId: google.maps.MapTypeId.ROADMAP
-        // }
-
-        // this.map = new google.maps.Map(this.mapElement, mapOptions);
-        // resolve(true);
 
     });
 

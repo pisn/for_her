@@ -16,7 +16,8 @@ export class SearchPrestadorPage implements OnInit {
 
   chosenSubservice: string;
   subserviceDetails: Array<any>;
-  prestadoras: Array<any>;    
+  prestadoras: Array<any>;   
+  location: any; 
 
   constructor(private router: Router, private awsConnectService : AwsApiConnectService, private geolocation : Geolocation) 
   { 
@@ -26,6 +27,10 @@ export class SearchPrestadorPage implements OnInit {
   ngOnInit() {    
     this.chosenSubservice = this.router.getCurrentNavigation().extras.state.chosenSubservice;                
     this.subserviceDetails = this.router.getCurrentNavigation().extras.state.subserviceDetails;
+    this.location = this.router.getCurrentNavigation().extras.state.location;
+
+    console.log('Got Location')
+    console.log(this.location)
     
     let detailsNames = new  Array<string>();
     this.subserviceDetails.forEach(d => {      
@@ -57,34 +62,15 @@ export class SearchPrestadorPage implements OnInit {
 
   orderedPrestadoras(prestadoras : any){   
 
-    //Obtendo distancia de cada prestadora ao usuário
-    
-    let currentLocation : Geoposition;    
+    //Obtendo distancia de cada prestadora ao usuário    
 
-    let geoOptions : GeolocationOptions = {
-      timeout : 200
-    }
-    
-    this.geolocation.getCurrentPosition(geoOptions).then((resp) => {
-      console.log('Got location!');
-      console.log(resp.coords.latitude.toString());
-      console.log(resp.coords.longitude.toString());      
-      currentLocation = resp;      
+    prestadoras.forEach(element => {               
+      console.log(element.nome + ' coordinates: ' + element.coordinates.latitude);
+      console.log('Google coordinates: ' + this.location.lat);
 
-      prestadoras.forEach(element => {               
-        console.log(element.nome + ' coordinates: ' + element.coordinates.latitude);
-
-        element.distance = this.getDistance(currentLocation.coords.latitude,element.coordinates.latitude ,currentLocation.coords.longitude, element.coordinates.longitude);
-       });
-       
-     },
-     (error : any) => {
-        prestadoras.forEach(element => {       
-          element.distance = this.getDistance(-23.564183,element.latitude ,-46.691130, element.longitude);          
-        });
-        console.log('Error returning location');
-        console.log(error);
-     });       
+      element.distance = this.getDistance(this.location.lat,element.coordinates.latitude ,this.location.lng, element.coordinates.longitude);
+     }); 
+        
 
 
      // Obtendo preco de cada prestadora, por enquanto unificado
