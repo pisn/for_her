@@ -13,12 +13,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        Serviço requerido: Elétrica - Fiação
-      </ion-col>
-    </ion-row>
+  <ion-grid>    
     <ion-row>
       <ion-col>
         <ion-card >          
@@ -46,6 +41,10 @@
                   <ion-item *ngFor="let subservice of subservicesPrices">      
                     <ion-label>{{subservice.caption}}</ion-label>
                     <ion-note slot="end">{{formatPreco(subservice.preco)}}</ion-note>                              
+                  </ion-item>
+                  <ion-item *ngIf="prestadora.distancePrice > 0">      
+                    <ion-label>Transporte:</ion-label>
+                    <ion-note slot="end">{{formatPreco(prestadora.distancePrice)}}</ion-note>                              
                   </ion-item>
                   <ion-item>
                     <ion-label><b>Total: </b></ion-label>

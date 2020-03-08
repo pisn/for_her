@@ -39,7 +39,7 @@ export class SearchPrestadorPage implements OnInit {
 
     this.awsConnectService.getPrestadorasBySubservice(detailsNames).then((result: any) => {           
 
-      this.prestadoras = this.orderedPrestadoras(result).sort(function(a,b) {return a.distance - b.distance});
+      this.prestadoras = this.processedPrestadoras(result).sort(function(a,b) {return a.distance - b.distance});
       
     }, 
     (error: any) => {
@@ -60,7 +60,7 @@ export class SearchPrestadorPage implements OnInit {
     return Math.sqrt(x*x + y*y) * R;
   }
 
-  orderedPrestadoras(prestadoras : any){   
+  processedPrestadoras(prestadoras : any){   
 
     //Obtendo distancia de cada prestadora ao usuário    
 
@@ -69,11 +69,15 @@ export class SearchPrestadorPage implements OnInit {
       console.log('Google coordinates: ' + this.location.lat);
 
       element.distance = this.getDistance(this.location.lat,element.coordinates.latitude ,this.location.lng, element.coordinates.longitude);
-     }); 
-        
+
+      var kilometerDistance = element.distance/1000
+      if(kilometerDistance <= element.freeDistance){
+        kilometerDistance = 0;
+      }
 
 
-     // Obtendo preco de cada prestadora, por enquanto unificado
+      element.distancePrice =   kilometerDistance * element.kilometerPrice
+     });    
 
      prestadoras.forEach(element => {
         var summedPrice = 0;
@@ -110,7 +114,13 @@ export class SearchPrestadorPage implements OnInit {
       currency : "BRL"
     };
 
-    return preco.toLocaleString("pt-BR",numberFormat);
+    if (preco > 0){
+      return preco.toLocaleString("pt-BR",numberFormat);
+    }
+    else {
+      return "Grátis";
+    }
+    
   }
 
   startNewOrder(prestadora){

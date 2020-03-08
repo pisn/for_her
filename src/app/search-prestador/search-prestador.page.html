@@ -23,8 +23,13 @@
                         {{convertedDistance(prestadora.distance)}}
                     </ion-row>
                     <ion-row>
+                      <ion-col>
                         {{formatPreco(prestadora.preco)}}
-                    </ion-row>
+                      </ion-col>
+                      <ion-col>
+                        <ion-icon name="car"></ion-icon>{{formatPreco(prestadora.distancePrice)}}
+                      </ion-col>                        
+                    </ion-row>                    
                   </ion-grid>
                 </ion-col>                                 
               </ion-row>

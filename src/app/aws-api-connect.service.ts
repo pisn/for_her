@@ -38,7 +38,7 @@ export class AwsApiConnectService {
 
   }
 
-  setNewServiceOrder(subservices : Array<string>, chosenDate : Date, details: string){
+  setNewServiceOrder(subservices : Array<string>, chosenDate : Date, details: string, distancePrice: number, servicePrice: number){
 
     return new Promise((resolve,reject) => {
       var headersDict = {
@@ -56,7 +56,9 @@ export class AwsApiConnectService {
             userId: this.cognitoService.getUserId(),
             chosenSubservices: subservices,
             chosenDate : chosenDate,
-            details : details            
+            details : details, 
+            distancePrice: distancePrice.toFixed(2),
+            servicePrice: servicePrice            
           }
       };
       

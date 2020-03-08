@@ -14,6 +14,7 @@ export class NewOrderPage implements OnInit {
   constructor(private navController : NavController, private alertController : AlertController, private router : Router, private awsApi : AwsApiConnectService) { }
 
   preco: number;
+  servicePrice: number;
   prestadora: any;
   chosenSubservice: string;
   subserviceDetails: Array<any>;
@@ -37,6 +38,10 @@ export class NewOrderPage implements OnInit {
       this.subservicesPrices.push({"caption": s.caption,"preco": this.prestadora.priceTable[s.serviceDetail] });
 
     });
+
+    this.servicePrice = summedPrice;
+
+    summedPrice += this.prestadora.distancePrice;
     
     this.preco = summedPrice;   
 
@@ -103,7 +108,7 @@ async presentAlertSuccess() {
   
   confirmarAgendamento(){
     this.presentAlertSuccess();    
-    this.awsApi.setNewServiceOrder(this.subserviceDetails, this.chosenDate, this.serviceDescription )
+    this.awsApi.setNewServiceOrder(this.subserviceDetails, this.chosenDate, this.serviceDescription, this.prestadora.distancePrice, this.servicePrice )
     .then( (v: any) => {
         console.log("Retornou certo");
     },
