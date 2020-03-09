@@ -129,7 +129,8 @@ export class SearchPrestadorPage implements OnInit {
       state : {
         subserviceDetails: this.subserviceDetails,
         chosenSubservice : this.chosenSubservice,        
-        prestadora : prestadora
+        prestadora : prestadora, 
+        location : this.location
       }
     };
     

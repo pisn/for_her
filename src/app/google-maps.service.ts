@@ -104,7 +104,7 @@ export class GoogleMapsService {
 
       // });
 
-        let latLng = new google.maps.LatLng(-23, -46);
+        let latLng = new google.maps.LatLng(-23.550382, -46.634238);
 
         let mapOptions = {
           center: latLng,
@@ -112,7 +112,16 @@ export class GoogleMapsService {
           mapTypeId: google.maps.MapTypeId.ROADMAP
         }
 
-        this.map = new google.maps.Map(this.mapElement, mapOptions);
+        this.map = new google.maps.Map(this.mapElement, mapOptions);                
+
+        this.map.addListener('center_changed', function() {
+          // 3 seconds after the center of the map has changed, pan back to the
+          // marker.
+          
+        });
+      
+        
+
         resolve(true);
 
     });

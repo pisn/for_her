@@ -16,6 +16,7 @@ export class NewOrderPage implements OnInit {
   preco: number;
   servicePrice: number;
   prestadora: any;
+  location: any;
   chosenSubservice: string;
   subserviceDetails: Array<any>;
   subservicesPrices: Array<any>;
@@ -26,6 +27,7 @@ export class NewOrderPage implements OnInit {
     this.prestadora = this.router.getCurrentNavigation().extras.state.prestadora;
     this.chosenSubservice = this.router.getCurrentNavigation().extras.state.chosenSubservice;
     this.subserviceDetails = this.router.getCurrentNavigation().extras.state.subserviceDetails;     
+    this.location = this.router.getCurrentNavigation().extras.state.location;     
     this.subservicesPrices = new Array();
 
     var summedPrice = 0;

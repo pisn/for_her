@@ -69,18 +69,23 @@ export class LocationSelectPage implements OnInit{
           name: place.name
       };
 
-      this.query = place.description;
+      this.query = place.description;        
+
+      
       
       this.placesService.getDetails({placeId: place.place_id}, (details) => {
 
-        location.name = details.name;
+        location.name = place.description;
         location.lat = details.geometry.location.lat();
-        location.lng = details.geometry.location.lng();
-        this.saveDisabled = false;
+        location.lng = details.geometry.location.lng();               
 
         this.maps.map.setCenter({lat: location.lat, lng: location.lng}); 
+        // var marker = new google.maps.Marker({
+        //   position: {lat: location.lat, lng: location.lng}
+        // });
+        // marker.setMap(this.maps.map);
 
-        this.location = location;       
+        this.location = location;                  
 
         //   this.zone.run(() => {
 
@@ -99,15 +104,16 @@ export class LocationSelectPage implements OnInit{
 
   }
 
-  searchPlace(){     
-
+  searchPlace(){           
       this.saveDisabled = true;
 
       if(this.query.length > 0 && !this.searchDisabled) {
 
           let config = {
               types: ['geocode'],
-              input: this.query
+              input: this.query,
+              location: this.maps.map.getCenter(),
+              radius: 2000
           }
 
           this.autocompleteService.getPlacePredictions(config, (predictions, status) => {
