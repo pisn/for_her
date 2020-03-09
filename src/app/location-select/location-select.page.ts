@@ -54,7 +54,12 @@ export class LocationSelectPage implements OnInit{
 
         this.autocompleteService = new google.maps.places.AutocompleteService();
         this.placesService = new google.maps.places.PlacesService(this.maps.map);
-        this.searchDisabled = false;
+        this.searchDisabled = false;       
+        this.maps.map.addListener('center_changed', function() {
+         
+          console.log('Dispatching event')         
+          
+        });      
 
     }); 
   }  

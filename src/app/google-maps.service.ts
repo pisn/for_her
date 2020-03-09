@@ -18,6 +18,7 @@ export class GoogleMapsService {
   mapLoadedObserver: any;
   currentMarker: any;
   apiKey: string = "AIzaSyCuoi4tT8hNMiLXg5LeosKLjz6fh772RiU";
+  centerChangedEvent: Event;
 
   constructor(public connectivityService: ConnectivityService, public geolocation: Geolocation) {
 
@@ -27,6 +28,7 @@ export class GoogleMapsService {
 
     this.mapElement = mapElement;
     this.pleaseConnect = pleaseConnect;
+    this.centerChangedEvent = new Event('center_changed');
 
     return this.loadGoogleMaps();
 
@@ -112,21 +114,18 @@ export class GoogleMapsService {
           mapTypeId: google.maps.MapTypeId.ROADMAP
         }
 
-        this.map = new google.maps.Map(this.mapElement, mapOptions);                
-
-        this.map.addListener('center_changed', function() {
-          // 3 seconds after the center of the map has changed, pan back to the
-          // marker.
-          
-        });
-      
-        
+        this.map = new google.maps.Map(this.mapElement, mapOptions);                       
 
         resolve(true);
 
     });
 
   }
+  
+  mapCenterChanged() {
+    console.log('EventFired');    
+  }
+
 
   disableMap(): void {
 
