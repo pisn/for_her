@@ -55,11 +55,43 @@ export class LocationSelectPage implements OnInit{
         this.autocompleteService = new google.maps.places.AutocompleteService();
         this.placesService = new google.maps.places.PlacesService(this.maps.map);
         this.searchDisabled = false;       
-        this.maps.map.addListener('center_changed', function() {
+        this.maps.map.addListener('dragend', function() {
          
           console.log('Dispatching event')         
           
         });      
+
+        /***Criando botao de confirmacao */
+        // Set CSS for the control border.
+        var controlDiv = document.createElement('div');
+        var controlUI = document.createElement('div');
+        controlUI.style.backgroundColor = '#fff';
+        controlUI.style.border = '2px solid #fff';
+        controlUI.style.borderRadius = '3px';
+        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+        controlUI.style.cursor = 'pointer';
+        controlUI.style.marginBottom = '22px';
+        controlUI.style.textAlign = 'center';
+        controlUI.title = 'Click to recenter the map';
+        controlDiv.appendChild(controlUI);
+
+        // Set CSS for the control interior.
+        var controlText = document.createElement('div');
+        controlText.style.color = 'rgb(25,25,25)';
+        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+        controlText.style.fontSize = '16px';
+        controlText.style.lineHeight = '38px';
+        controlText.style.paddingLeft = '5px';
+        controlText.style.paddingRight = '5px';
+        controlText.innerHTML = 'Confirmar';
+        controlUI.appendChild(controlText);
+
+        
+        this.maps.map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(controlDiv);
+        
+        controlUI.addEventListener('click',  (event) => {
+          this.save();
+        });
 
     }); 
   }  
@@ -84,11 +116,7 @@ export class LocationSelectPage implements OnInit{
         location.lat = details.geometry.location.lat();
         location.lng = details.geometry.location.lng();               
 
-        this.maps.map.setCenter({lat: location.lat, lng: location.lng}); 
-        // var marker = new google.maps.Marker({
-        //   position: {lat: location.lat, lng: location.lng}
-        // });
-        // marker.setMap(this.maps.map);
+        this.maps.map.setCenter({lat: location.lat, lng: location.lng});        
 
         this.location = location;                  
 

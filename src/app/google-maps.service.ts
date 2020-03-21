@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { ConnectivityService } from './connectivity.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { markParentViewsForCheck } from '@angular/core/src/view/util';
 
 declare var google;
 
@@ -36,7 +37,7 @@ export class GoogleMapsService {
 
   loadGoogleMaps(): Promise<any> {
 
-    return new Promise((resolve) => {
+    return new Promise((resolve) => {     
 
       if(typeof google == "undefined" || typeof google.maps == "undefined"){
 
@@ -58,12 +59,12 @@ export class GoogleMapsService {
           script.id = "googleMaps";
 
           if(this.apiKey){
-            script.src = 'http://maps.google.com/maps/api/js?key=' + this.apiKey + '&callback=mapInit&libraries=places';
+            script.src = 'https://maps.googleapis.com/maps/api/js?key=' + this.apiKey + '&callback=mapInit&libraries=places';
           } else {
-            script.src = 'http://maps.google.com/maps/api/js?callback=mapInit';       
+            script.src = 'https://maps.googleapis.com/maps/api/js?callback=mapInit';       
           }
 
-          document.body.appendChild(script);  
+          document.body.appendChild(script);            
 
         } 
       } else {
@@ -91,32 +92,43 @@ export class GoogleMapsService {
     this.mapInitialised = true;
 
     return new Promise((resolve) => {      
-      // this.geolocation.getCurrentPosition().then((position) => {
+      this.geolocation.getCurrentPosition().then((position) => {
 
-      //   let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
-      //   let mapOptions = {
-      //     center: latLng,
-      //     zoom: 15,
-      //     mapTypeId: google.maps.MapTypeId.ROADMAP
-      //   }
-
-      //   this.map = new google.maps.Map(this.mapElement, mapOptions);
-      //   resolve(true);
-
-      // });
-
-        let latLng = new google.maps.LatLng(-23.550382, -46.634238);
+        let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
         let mapOptions = {
           center: latLng,
           zoom: 15,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        }
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          streetViewControl: false,
+          zoomControl: false
+        }        
 
-        this.map = new google.maps.Map(this.mapElement, mapOptions);                       
+        this.map = new google.maps.Map(this.mapElement, mapOptions);
+
+        /***Botando icone no lugar onde o GPS indica posicao */
+        var marker = new google.maps.Marker({
+          position: {lat: position.coords.latitude, lng: position.coords.longitude},
+          icon: 'assets/icon/woman-map.png'
+        });
+        
+        marker.setMap(this.map);        
 
         resolve(true);
+
+      });
+
+        // let latLng = new google.maps.LatLng(-23.550382, -46.634238);
+
+        // let mapOptions = {
+        //   center: latLng,
+        //   zoom: 15,
+        //   mapTypeId: google.maps.MapTypeId.ROADMAP
+        // }
+
+        // this.map = new google.maps.Map(this.mapElement, mapOptions);                       
+
+        // resolve(true);
 
     });
 

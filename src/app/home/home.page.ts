@@ -102,7 +102,7 @@ export class HomePage {
   }
 
 
-  login(){           
+  login(){               
     
     this.CognitoService.authenticate("pedro.isn1@gmail.com","Gbm@2018")//authenticate(this.emailInput,this.passwordInput)
       .then(res=> {                       

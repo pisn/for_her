@@ -8,13 +8,7 @@
       </ion-buttons>
   </ion-navbar> -->
 
-  <ion-toolbar>
-    <ion-buttons >
-        <button ion-button (click)="close()">Cancel</button>
-    </ion-buttons>
-    <ion-buttons >
-        <button [disabled]="saveDisabled" ion-button (click)="save()">Save</button>
-    </ion-buttons>
+  <ion-toolbar>    
       <ion-searchbar [(ngModel)]="query" (ionInput)="searchPlace()"></ion-searchbar>
   </ion-toolbar>
 
