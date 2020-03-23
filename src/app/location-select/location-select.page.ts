@@ -107,28 +107,29 @@ export class LocationSelectPage implements OnInit{
   testeQuery(){
     console.log(this.query);
   }
+  
+
+  setLocation(latitude: number, longitude: number, name: string){
+    let location = {
+        lat: latitude,
+        lng: longitude,
+        name: name        
+    };
+
+    this.query = name;   
+
+    this.location = location;      
+    this.cdRef.detectChanges();
+  }
 
   selectPlace(place){
 
-      this.places = [];
-
-      let location = {
-          lat: null,
-          lng: null,
-          name: place.name
-      };
-
-      this.query = place.description;              
+      this.places = [];            
       
       this.placesService.getDetails({placeId: place.place_id}, (details) => {
 
-        location.name = place.description;
-        location.lat = details.geometry.location.lat();
-        location.lng = details.geometry.location.lng();               
-
-        this.maps.map.setCenter({lat: location.lat, lng: location.lng});        
-
-        this.location = location;                  
+        this.setLocation(details.geometry.location.lat(),details.geometry.location.lng(), place.description);        
+        this.maps.map.setCenter({lat: details.geometry.location.lat(), lng: details.geometry.location.lng()});                            
 
         //   this.zone.run(() => {
 
@@ -188,12 +189,10 @@ export class LocationSelectPage implements OnInit{
       if (status === 'OK') {
         if (results[0]) {          
           console.log(results[0].formatted_address);
-          this.query = results[0].formatted_address;
-          this.cdRef.detectChanges();
+          this.setLocation(latitude, longitude, results[0].formatted_address);                    
           
         } else {
-          this.query = 'No results found';
-          this.cdRef.detectChanges();
+          this.query = 'No results found';          
         }
       } else {
         console.log('Geocoder failed due to: ' + status);        
