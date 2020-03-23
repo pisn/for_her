@@ -1,4 +1,4 @@
-import { Component, OnInit,  ElementRef, ViewChild, AfterViewInit} from '@angular/core';
+import { Component, OnInit,  ElementRef, ViewChild, ChangeDetectorRef} from '@angular/core';
 import { NavController, Platform, ModalController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { GoogleMapsService } from '../google-maps.service';
@@ -44,7 +44,7 @@ export class LocationSelectPage implements OnInit{
   location: any;  
   geocoder : any;
 
-  constructor(public navCtrl: NavController, /*public zone: NgZone,*/ public maps: GoogleMapsService, public platform: Platform, public geolocation: Geolocation, public viewCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public cdRef: ChangeDetectorRef, public maps: GoogleMapsService, public platform: Platform, public geolocation: Geolocation, public viewCtrl: ModalController) {
       this.searchDisabled = true;
       this.saveDisabled = true;      
       this.query = '';
@@ -59,10 +59,9 @@ export class LocationSelectPage implements OnInit{
         this.geocoder = new google.maps.Geocoder();
         this.searchDisabled = false;               
 
-        this.maps.map.addListener('dragend', function() {
-        
-          console.log('Dispatching event')         
-          
+        this.maps.map.addListener('dragend', () => {            
+            var latLng = this.maps.map.getCenter();
+            this.setAdressByLocation(latLng.lat(), latLng.lng())                                      
         });      
 
         this.setAdressByLocation(position.coords.latitude, position.coords.longitude); 
@@ -190,9 +189,11 @@ export class LocationSelectPage implements OnInit{
         if (results[0]) {          
           console.log(results[0].formatted_address);
           this.query = results[0].formatted_address;
+          this.cdRef.detectChanges();
           
         } else {
           this.query = 'No results found';
+          this.cdRef.detectChanges();
         }
       } else {
         console.log('Geocoder failed due to: ' + status);        

@@ -12,8 +12,7 @@ declare var google;
 export class GoogleMapsService {
 
   mapElement: any;
-  pleaseConnect: any;
-  map: any;
+  pleaseConnect: any;  
   mapInitialised: boolean = false;
   mapLoaded: any;
   mapLoadedObserver: any;
@@ -22,6 +21,8 @@ export class GoogleMapsService {
   centerChangedEvent: Event;  
   initialLatitude: number;
   initialLongitude: number;
+
+  public map: any;
 
   constructor(public connectivityService: ConnectivityService, public geolocation: Geolocation) {
 
@@ -101,7 +102,7 @@ export class GoogleMapsService {
 
       let mapOptions = {
         center: latLng,
-        zoom: 15,
+        zoom: 17,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         streetViewControl: false,
         zoomControl: false
