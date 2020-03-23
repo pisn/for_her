@@ -1,7 +1,8 @@
-import { Component, OnInit,  ElementRef, ViewChild} from '@angular/core';
+import { Component, OnInit,  ElementRef, ViewChild, AfterViewInit} from '@angular/core';
 import { NavController, Platform, ModalController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { GoogleMapsService } from '../google-maps.service';
+
 
 declare var google;
 
@@ -33,33 +34,39 @@ export class LocationSelectPage implements OnInit{
   @ViewChild('pleaseConnect') pleaseConnect: ElementRef;
 
   latitude: number;
-  longitude: number;
+  longitude: number;  
   autocompleteService: any;
   placesService: any;
-  query: string = '';
+  query: string;  
   places: any = [];
   searchDisabled: boolean;
   saveDisabled: boolean;
   location: any;  
+  geocoder : any;
 
   constructor(public navCtrl: NavController, /*public zone: NgZone,*/ public maps: GoogleMapsService, public platform: Platform, public geolocation: Geolocation, public viewCtrl: ModalController) {
       this.searchDisabled = true;
-      this.saveDisabled = true;
+      this.saveDisabled = true;      
+      this.query = '';
   }
 
   ngOnInit(){
-    console.log('ionVIew Test');
-
-    let mapLoaded = this.maps.init(this.mapElement.nativeElement, this.pleaseConnect.nativeElement).then(() => {
+    this.geolocation.getCurrentPosition().then((position) => {
+      let mapLoaded = this.maps.init(this.mapElement.nativeElement, this.pleaseConnect.nativeElement, position.coords.latitude, position.coords.longitude).then(() => {
 
         this.autocompleteService = new google.maps.places.AutocompleteService();
         this.placesService = new google.maps.places.PlacesService(this.maps.map);
-        this.searchDisabled = false;       
+        this.geocoder = new google.maps.Geocoder();
+        this.searchDisabled = false;               
+
         this.maps.map.addListener('dragend', function() {
-         
+        
           console.log('Dispatching event')         
           
         });      
+
+        this.setAdressByLocation(position.coords.latitude, position.coords.longitude); 
+
 
         /***Criando botao de confirmacao */
         // Set CSS for the control border.
@@ -91,10 +98,16 @@ export class LocationSelectPage implements OnInit{
         
         controlUI.addEventListener('click',  (event) => {
           this.save();
-        });
+        });               
 
-    }); 
-  }  
+      });       
+
+    });     
+  }      
+
+  testeQuery(){
+    console.log(this.query);
+  }
 
   selectPlace(place){
 
@@ -106,9 +119,7 @@ export class LocationSelectPage implements OnInit{
           name: place.name
       };
 
-      this.query = place.description;        
-
-      
+      this.query = place.description;              
       
       this.placesService.getDetails({placeId: place.place_id}, (details) => {
 
@@ -166,6 +177,28 @@ export class LocationSelectPage implements OnInit{
           this.places = [];
       }
 
+  }
+
+  setAdressByLocation (latitude: number, longitude: number) {
+    var latlng = {lat: latitude, lng: longitude};
+
+    console.log('Executing request to google Geocoding. Latitude:' + latitude.toString() + ' Longitude:' + longitude.toString());    
+
+    this.geocoder.geocode({'location': latlng}, (results, status) =>  {
+      console.log('GeocodingRequest');
+      if (status === 'OK') {
+        if (results[0]) {          
+          console.log(results[0].formatted_address);
+          this.query = results[0].formatted_address;
+          
+        } else {
+          this.query = 'No results found';
+        }
+      } else {
+        console.log('Geocoder failed due to: ' + status);        
+      }
+    });    
+    
   }
 
   save(){            

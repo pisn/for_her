@@ -19,17 +19,21 @@ export class GoogleMapsService {
   mapLoadedObserver: any;
   currentMarker: any;
   apiKey: string = "AIzaSyCuoi4tT8hNMiLXg5LeosKLjz6fh772RiU";
-  centerChangedEvent: Event;
+  centerChangedEvent: Event;  
+  initialLatitude: number;
+  initialLongitude: number;
 
   constructor(public connectivityService: ConnectivityService, public geolocation: Geolocation) {
 
   }
 
-  init(mapElement: any, pleaseConnect: any): Promise<any> {
+  init(mapElement: any, pleaseConnect: any, initialLatitude: number, initialLongitude: number): Promise<any> {
 
     this.mapElement = mapElement;
     this.pleaseConnect = pleaseConnect;
     this.centerChangedEvent = new Event('center_changed');
+    this.initialLatitude = initialLatitude;
+    this.initialLongitude = initialLongitude;
 
     return this.loadGoogleMaps();
 
@@ -91,32 +95,31 @@ export class GoogleMapsService {
 
     this.mapInitialised = true;
 
-    return new Promise((resolve) => {      
-      this.geolocation.getCurrentPosition().then((position) => {
+    return new Promise((resolve) => {            
 
-        let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      let latLng = new google.maps.LatLng(this.initialLatitude, this.initialLongitude);
 
-        let mapOptions = {
-          center: latLng,
-          zoom: 15,
-          mapTypeId: google.maps.MapTypeId.ROADMAP,
-          streetViewControl: false,
-          zoomControl: false
-        }        
+      let mapOptions = {
+        center: latLng,
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        streetViewControl: false,
+        zoomControl: false
+      }        
 
-        this.map = new google.maps.Map(this.mapElement, mapOptions);
+      this.map = new google.maps.Map(this.mapElement, mapOptions);
 
-        /***Botando icone no lugar onde o GPS indica posicao */
-        var marker = new google.maps.Marker({
-          position: {lat: position.coords.latitude, lng: position.coords.longitude},
-          icon: 'assets/icon/woman-map.png'
-        });
-        
-        marker.setMap(this.map);        
-
-        resolve(true);
-
+      /***Botando icone no lugar onde o GPS indica posicao */
+      var marker = new google.maps.Marker({
+        position: {lat: this.initialLatitude, lng: this.initialLongitude},
+        icon: 'assets/icon/woman-map.png'
       });
+      
+      marker.setMap(this.map);        
+
+      resolve(true);
+
+      
 
         // let latLng = new google.maps.LatLng(-23.550382, -46.634238);
 
