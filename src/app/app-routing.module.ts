@@ -27,7 +27,8 @@ const routes: Routes = [
   { path: 'my-orders', loadChildren: './my-orders/my-orders.module#MyOrdersPageModule' },
   { path: 'perfil', loadChildren: './perfil/perfil.module#PerfilPageModule' },
   { path: 'subservice-details/:chosenSubservice', loadChildren: './subservice-details/subservice-details.module#SubserviceDetailsPageModule' },
-  { path: 'location-select', loadChildren: './location-select/location-select.module#LocationSelectPageModule' }
+  { path: 'location-select', loadChildren: './location-select/location-select.module#LocationSelectPageModule' },
+  { path: 'chat-mana', loadChildren: './chat-mana/chat-mana.module#ChatManaPageModule' }
 ];
 
 @NgModule({

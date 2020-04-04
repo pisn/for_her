@@ -15,6 +15,7 @@ import {GoogleMapsService} from './google-maps.service';
 import { ConnectivityService } from './connectivity.service';
 import { LocationSelectPage } from './location-select/location-select.page';
 import { LocationSelectPageModule } from './location-select/location-select.module';
+import { ChatManaPage } from './chat-mana/chat-mana.page';
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,6 +37,7 @@ import { LocationSelectPageModule } from './location-select/location-select.modu
     ModalController,
     NavController,
     LocationSelectPage,     
+    ChatManaPage,
     Geolocation,
     Platform,
     Network,
