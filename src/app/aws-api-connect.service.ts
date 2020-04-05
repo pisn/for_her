@@ -58,7 +58,8 @@ export class AwsApiConnectService {
             chosenDate : chosenDate,
             details : details, 
             distancePrice: distancePrice.toFixed(2),
-            servicePrice: servicePrice            
+            servicePrice: servicePrice,
+            status: "Opened"            
           }
       };
       
