@@ -21,6 +21,7 @@ export class NewOrderPage implements OnInit {
   subserviceDetails: Array<any>;
   subservicesPrices: Array<any>;
   chosenDate : Date;  
+  chosenTime: string;
   serviceDescription: string;
 
   ngOnInit() {         
@@ -36,7 +37,8 @@ export class NewOrderPage implements OnInit {
       console.log('Summing price for: ' + s);
 
       summedPrice += this.prestadora.priceTable[s.serviceDetail];
-
+      
+      s.price = this.prestadora.priceTable[s.serviceDetail];      
       this.subservicesPrices.push({"caption": s.caption,"preco": this.prestadora.priceTable[s.serviceDetail] });
 
     });
@@ -109,8 +111,8 @@ async presentAlertSuccess() {
   }
   
   confirmarAgendamento(){
-    this.presentAlertSuccess();    
-    this.awsApi.setNewServiceOrder(this.subserviceDetails, this.chosenDate, this.serviceDescription, this.prestadora.distancePrice, this.servicePrice )
+    this.presentAlertSuccess();        
+    this.awsApi.setNewServiceOrder(this.prestadora, this.subserviceDetails, this.chosenDate, this.chosenTime, this.serviceDescription)
     .then( (v: any) => {
         console.log("Retornou certo");
     },
