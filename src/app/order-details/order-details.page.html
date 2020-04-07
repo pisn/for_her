@@ -41,26 +41,49 @@
                   </ion-item>
                 </ion-list>
               </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label position="floating">Endereço do serviço:</ion-label>
+                    <ion-textarea autoGrow="true" readonly="true" [(ngModel)]="order.location.name"></ion-textarea>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label position="floating">Data de Preferência:</ion-label>
+                    <ion-textarea autoGrow="true" readonly="true" [(ngModel)]="order.chosenDate"></ion-textarea>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label position="floating">Horário de Preferência:</ion-label>
+                    <ion-textarea autoGrow="true" readonly="true" [(ngModel)]="order.chosenTime"></ion-textarea>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label position="floating">Detalhes:</ion-label>
+                    <ion-textarea autoGrow="true" readonly="true" [(ngModel)]="order.details"></ion-textarea>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
           </ion-card-content>            
         </ion-card>  
       </ion-col>
-    </ion-row>
+    </ion-row>            
     <ion-row>
-      <ion-col>
-         {{order.location.name}}
-      </ion-col>
+      <ion-button>
+        <font size="6"><ion-icon name="chatbubbles"></ion-icon></font>
+        <br>
+        Chat
+      </ion-button>      
     </ion-row>
-    <ion-row>      
-      Data:{{order.chosenDate}}           
-    </ion-row>   
-    <ion-row>      
-      Horário de Preferência:{{order.chosenTime}}      
-    </ion-row>
-    <ion-row>      
-      <ion-col>        
-          {{order.details}}        
-      </ion-col>
-    </ion-row>    
   </ion-grid>
 
 </ion-content>
