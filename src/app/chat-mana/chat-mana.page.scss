@@ -80,8 +80,8 @@
     .msg-content {
       float: left;
       position: relative;
-      background: rgb(114, 195, 176);
-      color: #fff;      
+      background: rgba(114, 195, 176,0.8);
+      // color: #fff;      
     }    
     .user-img {
       left: 0;
@@ -102,7 +102,7 @@
     .msg-content {
       float: right;
       color: #2a2828;
-      background: rgb(245, 165, 135);
+      background: rgba(245, 165, 135,0.8);
     }
   }
   
