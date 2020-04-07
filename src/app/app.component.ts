@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { CognitoServiceService } from './cognito-service.service';
 import {AwsApiConnectService  } from './aws-api-connect.service';
+import {CommonUtilsService} from './common-utils.service';
 
 @Component({
   selector: 'app-root',
@@ -60,7 +61,8 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private cognitoService : CognitoServiceService,
-    private awsApiConnectService : AwsApiConnectService
+    private awsApiConnectService : AwsApiConnectService,
+    private utils: CommonUtilsService
   ) {
     this.initializeApp();
   }

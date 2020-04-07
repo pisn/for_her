@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AwsApiConnectService} from '../aws-api-connect.service';
+import {CommonUtilsService} from '../common-utils.service';
+import {Router, NavigationExtras} from '@angular/router';
 
 
 @Component({
@@ -11,7 +13,7 @@ export class MyOrdersPage implements OnInit {
 
   orders: Array<any>;
 
-  constructor(private awsApi: AwsApiConnectService) { }
+  constructor(private router: Router, private awsApi: AwsApiConnectService, private utils: CommonUtilsService) { }
 
   ngOnInit() {
     this.awsApi.getOrdersByUser().then((result: any) => {        
@@ -39,6 +41,30 @@ export class MyOrdersPage implements OnInit {
     });
 
     return orders;
+  }
+
+  formatPrices(price: number){
+      return this.utils.formatPreco(price);      
+  }
+
+  formatStatus(status: string){
+    switch(status){
+      case "Em Aberto":
+        return 'green';       
+      default:
+        return 'black';
+    }
+  }
+
+  openOrderDetails(order){
+
+    let extras : NavigationExtras = {
+      state : {
+        order: order        
+      }
+    };
+    
+    this.router.navigate(['order-details'], extras);    
   }
 
 }

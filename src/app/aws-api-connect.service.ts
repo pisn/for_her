@@ -63,7 +63,7 @@ export class AwsApiConnectService {
 
   }
 
-  setNewServiceOrder(prestadora: any, subservices : Array<string>, chosenDate : Date, chosenTime: string, details: string){
+  setNewServiceOrder(prestadora: any, subservices : Array<string>, chosenDate : Date, chosenTime: string, details: string, location: Array<any>){
 
     return new Promise((resolve,reject) => {
       var headersDict = {
@@ -89,12 +89,13 @@ export class AwsApiConnectService {
           table: "serviceOrders",
           item: {
             userId: this.cognitoService.getUserId(),            
+            location: location,
             chosenSubservices: subservices,            
             chosenDate : chosenDate,
             chosenTime : chosenTime,
-            prestadora: prestadoraFiltered,
+            prestadora: prestadoraFiltered,            
             details : details,             
-            status: "Open"            
+            status: "Em Aberto"            
           }
       };
       

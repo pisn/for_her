@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AlertController, NavController} from '@ionic/angular';
 import {AwsApiConnectService} from '../aws-api-connect.service';
+import {CommonUtilsService} from '../common-utils.service';
 import { Router } from '@angular/router';
 import { Time } from '@angular/common';
 
@@ -11,7 +12,7 @@ import { Time } from '@angular/common';
 })
 export class NewOrderPage implements OnInit {
 
-  constructor(private navController : NavController, private alertController : AlertController, private router : Router, private awsApi : AwsApiConnectService) { }
+  constructor(private navController : NavController, private alertController : AlertController, private router : Router, private awsApi : AwsApiConnectService, private utils : CommonUtilsService) { }
 
   preco: number;
   servicePrice: number;
@@ -112,7 +113,7 @@ async presentAlertSuccess() {
   
   confirmarAgendamento(){
     this.presentAlertSuccess();        
-    this.awsApi.setNewServiceOrder(this.prestadora, this.subserviceDetails, this.chosenDate, this.chosenTime, this.serviceDescription)
+    this.awsApi.setNewServiceOrder(this.prestadora, this.subserviceDetails, this.chosenDate, this.chosenTime, this.serviceDescription, this.location)
     .then( (v: any) => {
         console.log("Retornou certo");
     },
@@ -123,26 +124,15 @@ async presentAlertSuccess() {
   }
 
   formatPreco(preco){
-    let numberFormat : Intl.NumberFormatOptions = {
-      style : "currency",
-      currency : "BRL"
-    };
-
-    return preco.toLocaleString("pt-BR",numberFormat);
+    return this.utils.formatPreco(preco);
   }
 
   formatPrecoTotal(){
     return this.formatPreco(this.preco);
-  }
+  }  
 
-  convertedDistance(distance: number){
-    if(distance < 1000){
-      return Math.round(distance).toString() + " m";
-    }
-    else {
-      return (distance/1000).toFixed(2).toString() + " Km";
-    }
-    
+  convertedDistance(distance){
+    return this.utils.convertedDistance(distance);
   }
 
 }
