@@ -35,4 +35,17 @@ export class OrderDetailsPage implements OnInit {
     return this.utils.formatPreco(preco);
   }
 
+  formatStatus(status: string){
+    switch(status){
+      case "Em Aberto":
+        return 'green';       
+      default:
+        return 'black';
+    }
+  }
+
+  openChat(order){
+    this.router.navigate(['chat-mana']);
+  }
+
 }
