@@ -12,6 +12,8 @@
 
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NavParams, IonContent, Events } from '@ionic/angular';
+import {API, graphqlOperation} from 'aws-amplify';
+import * as queries from '../../graphql/queries';
 
 @Component({
   selector: 'app-chat-mana',

@@ -25,7 +25,7 @@ import { ChatManaPage } from './chat-mana/chat-mana.page';
     IonicModule.forRoot(),
     AppRoutingModule,    
     HttpClientModule, 
-    LocationSelectPageModule
+    LocationSelectPageModule    
   ],
   providers: [
     StatusBar,
