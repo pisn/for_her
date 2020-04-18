@@ -91,11 +91,6 @@ export type CreateUserMutation = {
     } | null,
     // Generated id for a user. read-only
     id: string,
-    // Get a users messages by querying a GSI on the Messages table.
-    messages:  {
-      __typename: "MessageConnection",
-      nextToken: string | null,
-    } | null,
     // The username
     username: string,
     // is the user registered?
@@ -282,11 +277,6 @@ export type AllUserQuery = {
     } | null,
     // Generated id for a user. read-only
     id: string,
-    // Get a users messages by querying a GSI on the Messages table.
-    messages:  {
-      __typename: "MessageConnection",
-      nextToken: string | null,
-    } | null,
     // The username
     username: string,
     // is the user registered?
@@ -307,11 +297,6 @@ export type MeQuery = {
     } | null,
     // Generated id for a user. read-only
     id: string,
-    // Get a users messages by querying a GSI on the Messages table.
-    messages:  {
-      __typename: "MessageConnection",
-      nextToken: string | null,
-    } | null,
     // The username
     username: string,
     // is the user registered?
@@ -413,11 +398,6 @@ export type SubscribeToNewUsersSubscription = {
     } | null,
     // Generated id for a user. read-only
     id: string,
-    // Get a users messages by querying a GSI on the Messages table.
-    messages:  {
-      __typename: "MessageConnection",
-      nextToken: string | null,
-    } | null,
     // The username
     username: string,
     // is the user registered?

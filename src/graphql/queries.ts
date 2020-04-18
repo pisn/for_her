@@ -91,9 +91,6 @@ export const allUser = /* GraphQL */ `
         nextToken
       }
       id
-      messages {
-        nextToken
-      }
       username
       registered
     }
@@ -107,9 +104,6 @@ export const me = /* GraphQL */ `
         nextToken
       }
       id
-      messages {
-        nextToken
-      }
       username
       registered
     }

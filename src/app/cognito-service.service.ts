@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as AWSCognito from 'amazon-cognito-identity-js';
+import Amplify, {Auth} from 'aws-amplify';
 import { reject } from 'q';
 
 
@@ -8,6 +9,7 @@ import { reject } from 'q';
 })
 export class CognitoServiceService {
   user : AWSCognito.CognitoUser;
+  userAttributes: any;
   userSession : AWSCognito.CognitoUserSession;
   isConnected : boolean;
 
@@ -48,7 +50,8 @@ export class CognitoServiceService {
     });
   }
 
-  authenticate(email, password) {
+  authenticate(email, password) {    
+
     return new Promise((resolved, reject) => {
       const userPool = new AWSCognito.CognitoUserPool(this._POOL_DATA);
 
@@ -68,6 +71,17 @@ export class CognitoServiceService {
           this.userSession = result;
           this.isConnected = true;
           this.user = cognitoUser;
+
+          Auth.signIn(email, password).then(res => {
+            console.log('Logged in Amplify')
+          })          
+
+          this.user.getUserAttributes((err, attrs) => {
+            
+            const payload = {};
+            attrs.forEach(attr => (payload[attr.getName()] = attr.getValue()));            
+            this.userAttributes = payload
+          });
         },
         onFailure: err => {
           reject(err);

@@ -56,9 +56,6 @@ export const createUser = /* GraphQL */ `
         nextToken
       }
       id
-      messages {
-        nextToken
-      }
       username
       registered
     }

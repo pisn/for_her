@@ -57,9 +57,6 @@ export const subscribeToNewUsers = /* GraphQL */ `
         nextToken
       }
       id
-      messages {
-        nextToken
-      }
       username
       registered
     }
