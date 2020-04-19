@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {CommonUtilsService} from '../common-utils.service';
-import {Router} from '@angular/router';
+import {Router, NavigationExtras} from '@angular/router';
 
 @Component({
   selector: 'app-order-details',
@@ -45,7 +45,13 @@ export class OrderDetailsPage implements OnInit {
   }
 
   openChat(order){
-    this.router.navigate(['chat-mana']);
+    let extras : NavigationExtras = {
+      state : {               
+        order : this.order      
+      }
+    };
+    
+    this.router.navigate(['chat-mana'], extras);
   }
 
 }

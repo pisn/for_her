@@ -7,6 +7,9 @@ export const subscribeToNewMessage = /* GraphQL */ `
     subscribeToNewMessage(conversationId: $conversationId) {
       author {
         cognitoId
+        conversations {
+          nextToken
+        }
         id
         username
         registered
@@ -18,6 +21,9 @@ export const subscribeToNewMessage = /* GraphQL */ `
       isSent
       recipient {
         cognitoId
+        conversations {
+          nextToken
+        }
         id
         username
         registered
@@ -30,17 +36,38 @@ export const subscribeToNewUCs = /* GraphQL */ `
   subscription SubscribeToNewUCs($userId: ID!) {
     subscribeToNewUCs(userId: $userId) {
       associated {
+        associated {
+          conversationId
+          userId
+        }
+        conversation {
+          createdAt
+          id
+          name
+        }
         conversationId
+        user {
+          cognitoId
+          id
+          username
+          registered
+        }
         userId
       }
       conversation {
         createdAt
         id
+        messages {
+          nextToken
+        }
         name
       }
       conversationId
       user {
         cognitoId
+        conversations {
+          nextToken
+        }
         id
         username
         registered
@@ -55,6 +82,10 @@ export const subscribeToNewUsers = /* GraphQL */ `
       cognitoId
       conversations {
         nextToken
+        userConversations {
+          conversationId
+          userId
+        }
       }
       id
       username

@@ -5,6 +5,8 @@ import * as queries from '../../graphql/queries';
 import * as mutations from '../../graphql/mutations';
 import * as subscriptions from '../../graphql/subscriptions';
 import { CognitoServiceService } from '../cognito-service.service';
+import { Router } from '@angular/router';
+import { appInitialize } from '@ionic/angular/dist/app-initialize';
 
 @Component({
   selector: 'app-chat-mana',
@@ -14,19 +16,12 @@ import { CognitoServiceService } from '../cognito-service.service';
 export class ChatManaPage implements OnInit {
   @ViewChild('content') content: IonContent;
   @ViewChild('chat_input') messageInput: ElementRef;
-  chatUser: any;
-  User: string = "Me";
-  toUser: string = "driver";
+  chatUser: any; 
+  order: any;
   inp_text: any;
+  conversationMessages: any;
   editorMsg = '';
-  showEmojiPicker = false;
-  msgList: Array<{
-    userId: any,
-    userName: any,    
-    time: any,
-    message: any,
-    upertext: any;
-  }>
+  showEmojiPicker = false;  
 
   public count = 0;
   // public arr = [
@@ -107,7 +102,7 @@ export class ChatManaPage implements OnInit {
 
 
 
-  constructor(private events: Events, private cognitoService : CognitoServiceService ) {
+  constructor(private events: Events, private cognitoService : CognitoServiceService, private router: Router ) {
     // this.msgList = [
     //   {
     //     userId: this.User,
@@ -177,25 +172,75 @@ export class ChatManaPage implements OnInit {
 
   }
 
-  ngOnInit() {
-    console.log('Executing first query')
+  async getUserChat(){
+    //Initializing APPSync
     var meQuery = API.graphql(graphqlOperation(queries.me)) as Promise<any>;    
 
     meQuery.then((result) => {      
-      if(result.data.me == null){
-        console.log('Creating user in chat')        
-
-        var newUserMutation = API.graphql(graphqlOperation(mutations.createUser, {username: this.cognitoService.userAttributes['name']})) as Promise<any>;       
-        
-      }
-      else{
+      if(result.data.me != null){                      
         this.chatUser = result.data.me;
+
+        console.log('UserChat from Me:')
+        console.log(this.chatUser)
       }
-    },
-    (error) => {
-      
     });
+
+    return meQuery;
+ }
+
+  async createUserChat() {
+    console.log('Creating user');
+
+      var newUserMutation = API.graphql(graphqlOperation(mutations.createUser, {username: this.cognitoService.userAttributes['name']})) as Promise<any>;
+
+      newUserMutation.then((result) => {
+          console.log('New user created');                   
+      });
+      
+      return newUserMutation;
+  }
+
+  async createConversation() {
+    await API.graphql(graphqlOperation(mutations.createConversation, {id: this.order.serviceId, name : this.order.serviceId}))
+    await API.graphql(graphqlOperation(mutations.createUserConversations, {conversationId: this.order.serviceId, userId: this.order.prestadora.prestadoraId }))
+    await API.graphql(graphqlOperation(mutations.createUserConversations, {conversationId: this.order.serviceId, userId: this.cognitoService.getUserId() }))  
+  }
+
+  async loadMessages(){
+     var messagesQuery = API.graphql(graphqlOperation(queries.allMessage, {conversationId: this.order.serviceId})) as Promise<any>;
+
+     messagesQuery.then((result) => {
+       this.conversationMessages = result.data.allMessage;
+     });
+
+  }
+
+
+  async loadChat(){
+    await this.getUserChat();
+
+    if(this.chatUser == null){
+      await this.createUserChat();
+      await this.getUserChat();
+    }
     
+    var conversations = this.chatUser.conversations.userConversations.filter(function (value) { return value.conversationId == this  },this.order.serviceId);    
+
+    if(conversations.length == 0){
+       console.log('Conversation does not exist yet. Creating') 
+       await this.createConversation();      
+    }    
+
+    this.loadMessages();
+  }
+
+  
+
+  ngOnInit() {    
+
+    //Initialiing Page
+    this.order = this.router.getCurrentNavigation().extras.state.order;    
+    this.loadChat();    
   }
 
   scrollToBottom() {

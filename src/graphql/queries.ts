@@ -7,6 +7,9 @@ export const allMessage = /* GraphQL */ `
     allMessage(after: $after, conversationId: $conversationId, first: $first) {
       author {
         cognitoId
+        conversations {
+          nextToken
+        }
         id
         username
         registered
@@ -18,6 +21,9 @@ export const allMessage = /* GraphQL */ `
       isSent
       recipient {
         cognitoId
+        conversations {
+          nextToken
+        }
         id
         username
         registered
@@ -38,11 +44,23 @@ export const allMessageConnection = /* GraphQL */ `
       first: $first
     ) {
       messages {
+        author {
+          cognitoId
+          id
+          username
+          registered
+        }
         content
         conversationId
         createdAt
         id
         isSent
+        recipient {
+          cognitoId
+          id
+          username
+          registered
+        }
         sender
       }
       nextToken
@@ -64,6 +82,9 @@ export const allMessageFrom = /* GraphQL */ `
     ) {
       author {
         cognitoId
+        conversations {
+          nextToken
+        }
         id
         username
         registered
@@ -75,6 +96,9 @@ export const allMessageFrom = /* GraphQL */ `
       isSent
       recipient {
         cognitoId
+        conversations {
+          nextToken
+        }
         id
         username
         registered
@@ -89,6 +113,10 @@ export const allUser = /* GraphQL */ `
       cognitoId
       conversations {
         nextToken
+        userConversations {
+          conversationId
+          userId
+        }
       }
       id
       username
@@ -102,6 +130,10 @@ export const me = /* GraphQL */ `
       cognitoId
       conversations {
         nextToken
+        userConversations {
+          conversationId
+          userId
+        }
       }
       id
       username

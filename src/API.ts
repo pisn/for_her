@@ -19,6 +19,20 @@ export type CreateConversationMutation = {
     // The Conversation's messages.
     messages:  {
       __typename: "MessageConnection",
+      messages:  Array< {
+        __typename: "Message",
+        // The message content.
+        content: string,
+        // The id of the Conversation this message belongs to. This is the table primary key.
+        conversationId: string,
+        // The message timestamp. This is also the table sort key.
+        createdAt: string | null,
+        // Generated id for a message -- read-only
+        id: string,
+        // Flag denoting if this message has been accepted by the server or not.
+        isSent: boolean | null,
+        sender: string | null,
+      } | null > | null,
       nextToken: string | null,
     } | null,
     // The Conversation's name.
@@ -42,6 +56,11 @@ export type CreateMessageMutation = {
       __typename: "User",
       // A unique identifier for the user.
       cognitoId: string,
+      // A user's enrolled Conversations. This is an interesting case. This is an interesting pagination case.
+      conversations:  {
+        __typename: "UserConverstationsConnection",
+        nextToken: string | null,
+      } | null,
       // Generated id for a user. read-only
       id: string,
       // The username
@@ -63,6 +82,11 @@ export type CreateMessageMutation = {
       __typename: "User",
       // A unique identifier for the user.
       cognitoId: string,
+      // A user's enrolled Conversations. This is an interesting case. This is an interesting pagination case.
+      conversations:  {
+        __typename: "UserConverstationsConnection",
+        nextToken: string | null,
+      } | null,
       // Generated id for a user. read-only
       id: string,
       // The username
@@ -88,6 +112,11 @@ export type CreateUserMutation = {
     conversations:  {
       __typename: "UserConverstationsConnection",
       nextToken: string | null,
+      userConversations:  Array< {
+        __typename: "UserConversations",
+        conversationId: string,
+        userId: string,
+      } | null > | null,
     } | null,
     // Generated id for a user. read-only
     id: string,
@@ -109,7 +138,32 @@ export type CreateUserConversationsMutation = {
     __typename: "UserConversations",
     associated:  Array< {
       __typename: "UserConversations",
+      associated:  Array< {
+        __typename: "UserConversations",
+        conversationId: string,
+        userId: string,
+      } | null > | null,
+      conversation:  {
+        __typename: "Conversation",
+        // The Conversation's timestamp.
+        createdAt: string | null,
+        // A unique identifier for the Conversation.
+        id: string,
+        // The Conversation's name.
+        name: string,
+      } | null,
       conversationId: string,
+      user:  {
+        __typename: "User",
+        // A unique identifier for the user.
+        cognitoId: string,
+        // Generated id for a user. read-only
+        id: string,
+        // The username
+        username: string,
+        // is the user registered?
+        registered: boolean | null,
+      } | null,
       userId: string,
     } | null > | null,
     conversation:  {
@@ -118,6 +172,11 @@ export type CreateUserConversationsMutation = {
       createdAt: string | null,
       // A unique identifier for the Conversation.
       id: string,
+      // The Conversation's messages.
+      messages:  {
+        __typename: "MessageConnection",
+        nextToken: string | null,
+      } | null,
       // The Conversation's name.
       name: string,
     } | null,
@@ -126,6 +185,11 @@ export type CreateUserConversationsMutation = {
       __typename: "User",
       // A unique identifier for the user.
       cognitoId: string,
+      // A user's enrolled Conversations. This is an interesting case. This is an interesting pagination case.
+      conversations:  {
+        __typename: "UserConverstationsConnection",
+        nextToken: string | null,
+      } | null,
       // Generated id for a user. read-only
       id: string,
       // The username
@@ -152,6 +216,11 @@ export type AllMessageQuery = {
       __typename: "User",
       // A unique identifier for the user.
       cognitoId: string,
+      // A user's enrolled Conversations. This is an interesting case. This is an interesting pagination case.
+      conversations:  {
+        __typename: "UserConverstationsConnection",
+        nextToken: string | null,
+      } | null,
       // Generated id for a user. read-only
       id: string,
       // The username
@@ -173,6 +242,11 @@ export type AllMessageQuery = {
       __typename: "User",
       // A unique identifier for the user.
       cognitoId: string,
+      // A user's enrolled Conversations. This is an interesting case. This is an interesting pagination case.
+      conversations:  {
+        __typename: "UserConverstationsConnection",
+        nextToken: string | null,
+      } | null,
       // Generated id for a user. read-only
       id: string,
       // The username
@@ -196,6 +270,18 @@ export type AllMessageConnectionQuery = {
     __typename: "MessageConnection",
     messages:  Array< {
       __typename: "Message",
+      // The author object. Note: `authorId` is only available because we list it in `extraAttributes` in `Conversation.messages`
+      author:  {
+        __typename: "User",
+        // A unique identifier for the user.
+        cognitoId: string,
+        // Generated id for a user. read-only
+        id: string,
+        // The username
+        username: string,
+        // is the user registered?
+        registered: boolean | null,
+      } | null,
       // The message content.
       content: string,
       // The id of the Conversation this message belongs to. This is the table primary key.
@@ -206,6 +292,17 @@ export type AllMessageConnectionQuery = {
       id: string,
       // Flag denoting if this message has been accepted by the server or not.
       isSent: boolean | null,
+      recipient:  {
+        __typename: "User",
+        // A unique identifier for the user.
+        cognitoId: string,
+        // Generated id for a user. read-only
+        id: string,
+        // The username
+        username: string,
+        // is the user registered?
+        registered: boolean | null,
+      } | null,
       sender: string | null,
     } | null > | null,
     nextToken: string | null,
@@ -227,6 +324,11 @@ export type AllMessageFromQuery = {
       __typename: "User",
       // A unique identifier for the user.
       cognitoId: string,
+      // A user's enrolled Conversations. This is an interesting case. This is an interesting pagination case.
+      conversations:  {
+        __typename: "UserConverstationsConnection",
+        nextToken: string | null,
+      } | null,
       // Generated id for a user. read-only
       id: string,
       // The username
@@ -248,6 +350,11 @@ export type AllMessageFromQuery = {
       __typename: "User",
       // A unique identifier for the user.
       cognitoId: string,
+      // A user's enrolled Conversations. This is an interesting case. This is an interesting pagination case.
+      conversations:  {
+        __typename: "UserConverstationsConnection",
+        nextToken: string | null,
+      } | null,
       // Generated id for a user. read-only
       id: string,
       // The username
@@ -274,6 +381,11 @@ export type AllUserQuery = {
     conversations:  {
       __typename: "UserConverstationsConnection",
       nextToken: string | null,
+      userConversations:  Array< {
+        __typename: "UserConversations",
+        conversationId: string,
+        userId: string,
+      } | null > | null,
     } | null,
     // Generated id for a user. read-only
     id: string,
@@ -294,6 +406,11 @@ export type MeQuery = {
     conversations:  {
       __typename: "UserConverstationsConnection",
       nextToken: string | null,
+      userConversations:  Array< {
+        __typename: "UserConversations",
+        conversationId: string,
+        userId: string,
+      } | null > | null,
     } | null,
     // Generated id for a user. read-only
     id: string,
@@ -317,6 +434,11 @@ export type SubscribeToNewMessageSubscription = {
       __typename: "User",
       // A unique identifier for the user.
       cognitoId: string,
+      // A user's enrolled Conversations. This is an interesting case. This is an interesting pagination case.
+      conversations:  {
+        __typename: "UserConverstationsConnection",
+        nextToken: string | null,
+      } | null,
       // Generated id for a user. read-only
       id: string,
       // The username
@@ -338,6 +460,11 @@ export type SubscribeToNewMessageSubscription = {
       __typename: "User",
       // A unique identifier for the user.
       cognitoId: string,
+      // A user's enrolled Conversations. This is an interesting case. This is an interesting pagination case.
+      conversations:  {
+        __typename: "UserConverstationsConnection",
+        nextToken: string | null,
+      } | null,
       // Generated id for a user. read-only
       id: string,
       // The username
@@ -358,7 +485,32 @@ export type SubscribeToNewUCsSubscription = {
     __typename: "UserConversations",
     associated:  Array< {
       __typename: "UserConversations",
+      associated:  Array< {
+        __typename: "UserConversations",
+        conversationId: string,
+        userId: string,
+      } | null > | null,
+      conversation:  {
+        __typename: "Conversation",
+        // The Conversation's timestamp.
+        createdAt: string | null,
+        // A unique identifier for the Conversation.
+        id: string,
+        // The Conversation's name.
+        name: string,
+      } | null,
       conversationId: string,
+      user:  {
+        __typename: "User",
+        // A unique identifier for the user.
+        cognitoId: string,
+        // Generated id for a user. read-only
+        id: string,
+        // The username
+        username: string,
+        // is the user registered?
+        registered: boolean | null,
+      } | null,
       userId: string,
     } | null > | null,
     conversation:  {
@@ -367,6 +519,11 @@ export type SubscribeToNewUCsSubscription = {
       createdAt: string | null,
       // A unique identifier for the Conversation.
       id: string,
+      // The Conversation's messages.
+      messages:  {
+        __typename: "MessageConnection",
+        nextToken: string | null,
+      } | null,
       // The Conversation's name.
       name: string,
     } | null,
@@ -375,6 +532,11 @@ export type SubscribeToNewUCsSubscription = {
       __typename: "User",
       // A unique identifier for the user.
       cognitoId: string,
+      // A user's enrolled Conversations. This is an interesting case. This is an interesting pagination case.
+      conversations:  {
+        __typename: "UserConverstationsConnection",
+        nextToken: string | null,
+      } | null,
       // Generated id for a user. read-only
       id: string,
       // The username
@@ -395,6 +557,11 @@ export type SubscribeToNewUsersSubscription = {
     conversations:  {
       __typename: "UserConverstationsConnection",
       nextToken: string | null,
+      userConversations:  Array< {
+        __typename: "UserConversations",
+        conversationId: string,
+        userId: string,
+      } | null > | null,
     } | null,
     // Generated id for a user. read-only
     id: string,

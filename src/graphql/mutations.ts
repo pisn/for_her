@@ -8,6 +8,14 @@ export const createConversation = /* GraphQL */ `
       createdAt
       id
       messages {
+        messages {
+          content
+          conversationId
+          createdAt
+          id
+          isSent
+          sender
+        }
         nextToken
       }
       name
@@ -29,6 +37,9 @@ export const createMessage = /* GraphQL */ `
     ) {
       author {
         cognitoId
+        conversations {
+          nextToken
+        }
         id
         username
         registered
@@ -40,6 +51,9 @@ export const createMessage = /* GraphQL */ `
       isSent
       recipient {
         cognitoId
+        conversations {
+          nextToken
+        }
         id
         username
         registered
@@ -54,6 +68,10 @@ export const createUser = /* GraphQL */ `
       cognitoId
       conversations {
         nextToken
+        userConversations {
+          conversationId
+          userId
+        }
       }
       id
       username
@@ -65,17 +83,38 @@ export const createUserConversations = /* GraphQL */ `
   mutation CreateUserConversations($conversationId: ID!, $userId: ID!) {
     createUserConversations(conversationId: $conversationId, userId: $userId) {
       associated {
+        associated {
+          conversationId
+          userId
+        }
+        conversation {
+          createdAt
+          id
+          name
+        }
         conversationId
+        user {
+          cognitoId
+          id
+          username
+          registered
+        }
         userId
       }
       conversation {
         createdAt
         id
+        messages {
+          nextToken
+        }
         name
       }
       conversationId
       user {
         cognitoId
+        conversations {
+          nextToken
+        }
         id
         username
         registered
