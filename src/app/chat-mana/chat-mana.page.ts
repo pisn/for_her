@@ -19,7 +19,7 @@ export class ChatManaPage implements OnInit {
   chatUser: any; 
   order: any;
   inp_text: any;
-  conversationMessages: any;
+  conversationMessages: Array<any>;
   editorMsg = '';
   showEmojiPicker = false;  
 
@@ -272,6 +272,16 @@ export class ChatManaPage implements OnInit {
   
 
   sendMsg() {
+    var newMessage = {
+      content: this.inp_text,
+      conversationId: this.order.serviceId,
+      createdAt: (new Date()).toISOString()    
+    }
+
+    this.conversationMessages.push(newMessage);
+
+    API.graphql(graphqlOperation(mutations.createMessage, newMessage));
+
   //   let otherUser;
   //   if (this.count === 0) {
   //     otherUser = this.arr[0].message
@@ -302,11 +312,11 @@ export class ChatManaPage implements OnInit {
   //     message: otherUser,
   //     upertext: otherUser
   //   });
-  //   this.inp_text = "";
-  //   console.log('scrollBottom');
-  //   setTimeout(() => {
-  //     this.scrollToBottom()
-  //   }, 10)
+    this.inp_text = "";
+    console.log('scrollBottom');
+    setTimeout(() => {
+      this.scrollToBottom()
+    }, 10)
    }
 
 }

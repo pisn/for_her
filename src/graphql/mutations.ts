@@ -12,7 +12,6 @@ export const createConversation = /* GraphQL */ `
           content
           conversationId
           createdAt
-          id
           isSent
           sender
         }
@@ -27,13 +26,11 @@ export const createMessage = /* GraphQL */ `
     $content: String
     $conversationId: ID!
     $createdAt: String!
-    $id: ID!
   ) {
     createMessage(
       content: $content
       conversationId: $conversationId
       createdAt: $createdAt
-      id: $id
     ) {
       author {
         cognitoId
@@ -47,7 +44,6 @@ export const createMessage = /* GraphQL */ `
       content
       conversationId
       createdAt
-      id
       isSent
       recipient {
         cognitoId

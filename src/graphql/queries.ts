@@ -17,7 +17,6 @@ export const allMessage = /* GraphQL */ `
       content
       conversationId
       createdAt
-      id
       isSent
       recipient {
         cognitoId
@@ -53,7 +52,6 @@ export const allMessageConnection = /* GraphQL */ `
         content
         conversationId
         createdAt
-        id
         isSent
         recipient {
           cognitoId
@@ -92,7 +90,6 @@ export const allMessageFrom = /* GraphQL */ `
       content
       conversationId
       createdAt
-      id
       isSent
       recipient {
         cognitoId

@@ -27,8 +27,6 @@ export type CreateConversationMutation = {
         conversationId: string,
         // The message timestamp. This is also the table sort key.
         createdAt: string | null,
-        // Generated id for a message -- read-only
-        id: string,
         // Flag denoting if this message has been accepted by the server or not.
         isSent: boolean | null,
         sender: string | null,
@@ -44,7 +42,6 @@ export type CreateMessageMutationVariables = {
   content?: string | null,
   conversationId: string,
   createdAt: string,
-  id: string,
 };
 
 export type CreateMessageMutation = {
@@ -74,8 +71,6 @@ export type CreateMessageMutation = {
     conversationId: string,
     // The message timestamp. This is also the table sort key.
     createdAt: string | null,
-    // Generated id for a message -- read-only
-    id: string,
     // Flag denoting if this message has been accepted by the server or not.
     isSent: boolean | null,
     recipient:  {
@@ -234,8 +229,6 @@ export type AllMessageQuery = {
     conversationId: string,
     // The message timestamp. This is also the table sort key.
     createdAt: string | null,
-    // Generated id for a message -- read-only
-    id: string,
     // Flag denoting if this message has been accepted by the server or not.
     isSent: boolean | null,
     recipient:  {
@@ -288,8 +281,6 @@ export type AllMessageConnectionQuery = {
       conversationId: string,
       // The message timestamp. This is also the table sort key.
       createdAt: string | null,
-      // Generated id for a message -- read-only
-      id: string,
       // Flag denoting if this message has been accepted by the server or not.
       isSent: boolean | null,
       recipient:  {
@@ -342,8 +333,6 @@ export type AllMessageFromQuery = {
     conversationId: string,
     // The message timestamp. This is also the table sort key.
     createdAt: string | null,
-    // Generated id for a message -- read-only
-    id: string,
     // Flag denoting if this message has been accepted by the server or not.
     isSent: boolean | null,
     recipient:  {
@@ -452,8 +441,6 @@ export type SubscribeToNewMessageSubscription = {
     conversationId: string,
     // The message timestamp. This is also the table sort key.
     createdAt: string | null,
-    // Generated id for a message -- read-only
-    id: string,
     // Flag denoting if this message has been accepted by the server or not.
     isSent: boolean | null,
     recipient:  {

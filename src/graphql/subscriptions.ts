@@ -17,7 +17,6 @@ export const subscribeToNewMessage = /* GraphQL */ `
       content
       conversationId
       createdAt
-      id
       isSent
       recipient {
         cognitoId
