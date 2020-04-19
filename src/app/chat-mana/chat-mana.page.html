@@ -18,7 +18,7 @@
       <div class="message-wrap">
         <div *ngFor="let msg of conversationMessages;let i = index; let first = first; let last = last" class="message">
 
-          <div class="message-left" *ngIf="msg.sender == chatUser.cognitoId">
+          <div class="message-left" *ngIf="msg.sender != chatUser.cognitoId">
             <!-- <img class="user-img" [src]="msg.userAvatar"> -->
             <div class="msg-detail">
               <div class="msg-content">
@@ -26,15 +26,17 @@
               </div>
             </div>
           </div>
-          <div class="message-right" *ngIf="msg.sender != chatUser.cognitoId">
-            <!-- <ion-spinner name="dots" *ngIf="msg.status === 'pending'"></ion-spinner> -->
+          <div class="message-right" *ngIf="msg.sender == chatUser.cognitoId">            
             <div class="msg-detail">
               <div class="msg-info">
               </div>
               <div class="msg-content">
-                <p class="line-breaker  ">{{msg.content}}</p>
-              </div>
+                <p class="line-breaker  ">{{msg.content}}</p>                
+              </div>                                   
             </div>
+            <div class="spinner-right">
+              <ion-spinner name="dots" class ="spinnerRight" *ngIf="msg.status === 'pending'"></ion-spinner>
+            </div>            
           </div>
         </div>
       </div>

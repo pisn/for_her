@@ -19,157 +19,16 @@ export class ChatManaPage implements OnInit {
   chatUser: any; 
   order: any;
   inp_text: any;
-  conversationMessages: Array<any>;
+  conversationMessages: Array<any>;  
   editorMsg = '';
   showEmojiPicker = false;  
 
-  public count = 0;
-  // public arr = [
-  //   {
-  //     "messageId": "1",
-  //     "userId": "140000198202211138",
-  //     "userName": "Luff",
-  //     "userImgUrl": "./assets/user.jpg",
-  //     "toUserId": "210000198410281948",
-  //     "toUserName": "Hancock",
-  //     "userAvatar": "./assets/to-user.jpg",
-  //     "time": 1488349800000,
-  //     "message": "Hey, that\'s an awesome chat UI",
-  //     "status": "success"
-
-  //   },
-  //   {
-  //     "messageId": "2",
-  //     "userId": "210000198410281948",
-  //     "userName": "Hancock",
-  //     "userImgUrl": "./assets/to-user.jpg",
-  //     "toUserId": "140000198202211138",
-  //     "toUserName": "Luff",
-  //     "userAvatar": "./assets/user.jpg",
-  //     "time": 1491034800000,
-  //     "message": "Right, it totally blew my mind. They have other great apps and designs too !",
-  //     "status": "success"
-  //   },
-  //   {
-  //     "messageId": "3",
-  //     "userId": "140000198202211138",
-  //     "userName": "Luff",
-  //     "userImgUrl": "./assets/user.jpg",
-  //     "toUserId": "210000198410281948",
-  //     "toUserName": "Hancock",
-  //     "userAvatar": "./assets/to-user.jpg",
-  //     "time": 1491034920000,
-  //     "message": "And it is free ?",
-  //     "status": "success"
-  //   },
-  //   {
-  //     "messageId": "4",
-  //     "userId": "210000198410281948",
-  //     "userName": "Hancock",
-  //     "userImgUrl": "./assets/to-user.jpg",
-  //     "toUserId": "140000198202211138",
-  //     "toUserName": "Luff",
-  //     "userAvatar": "./assets/user.jpg",
-  //     "time": 1491036720000,
-  //     "message": "Yes, totally free. Beat that ! ",
-  //     "status": "success"
-  //   },
-  //   {
-  //     "messageId": "5",
-  //     "userId": "210000198410281948",
-  //     "userName": "Hancock",
-  //     "userImgUrl": "./assets/to-user.jpg",
-  //     "toUserId": "140000198202211138",
-  //     "toUserName": "Luff",
-  //     "userAvatar": "./assets/user.jpg",
-  //     "time": 1491108720000,
-  //     "message": "Wow, that\'s so cool. Hats off to the developers. This is gooood stuff",
-  //     "status": "success"
-  //   },
-  //   {
-  //     "messageId": "6",
-  //     "userId": "140000198202211138",
-  //     "userName": "Luff",
-  //     "userImgUrl": "./assets/user.jpg",
-  //     "toUserId": "210000198410281948",
-  //     "toUserName": "Hancock",
-  //     "userAvatar": "./assets/to-user.jpg",
-  //     "time": 1491231120000,
-  //     "message": "Check out their other designs.",
-  //     "status": "success"
-  //   }
-  // ]
+  public count = 0; 
 
 
 
   constructor(private events: Events, private cognitoService : CognitoServiceService, private router: Router ) {
-    // this.msgList = [
-    //   {
-    //     userId: this.User,
-    //     userName: this.User,
-    //     userAvatar: "assets/driver.jpeg",
-    //     time: "12:01 pm",
-    //     message: 'Hey, that\'s an awesome chat UI',
-    //     upertext: 'Hello'
-    //   },
-    //   {
-    //     userId: this.toUser,
-    //     userName: this.toUser,
-    //     userAvatar: "assets/user.jpeg",
-    //     time: "12:01 pm",
-    //     message: "Right, it totally blew my mind. They have other great apps and designs too!",
-    //     upertext: "Hii"
-    //   },
-    //   {
-    //     userId: this.User,
-    //     userName: this.User,
-    //     userAvatar: "assets/driver.jpeg",
-    //     time: "12:01 pm",
-    //     message: 'And it is free ?',
-    //     upertext: 'How r u '
-    //   },
-    //   {
-    //     userId: this.toUser,
-    //     userName: this.toUser,
-    //     userAvatar: "assets/user.jpeg",
-    //     time: "12:01 pm",
-    //     message: 'Yes, totally free. Beat that !',
-    //     upertext: 'good'
-    //   },
-    //   {
-    //     userId: this.User,
-    //     userName: this.User,
-    //     userAvatar: "assets/driver.jpeg",
-    //     time: "12:01 pm",
-    //     message: 'Wow, that\'s so cool. Hats off to the developers. This is gooood stuff',
-    //     upertext: 'How r u '
-    //   },
-    //   {
-    //     userId: this.toUser,
-    //     userName: this.toUser,
-    //     userAvatar: "assets/user.jpeg",
-    //     time: "12:01 pm",
-    //     message: 'Check out their other designs.',
-    //     upertext: 'good'
-    //   },
-    //   {
-    //     userId: this.User,
-    //     userName: this.User,
-    //     userAvatar: "assets/driver.jpeg",
-    //     time: "12:01 pm",
-    //     message: 'Have you seen their other apps ? They have a collection of ready-made apps for developers. This makes my life so easy. I love it! ',
-    //     upertext: 'How r u '
-    //   },
-    //   {
-    //     userId: this.toUser,
-    //     userName: this.toUser,
-    //     userAvatar: "assets/user.jpeg",
-    //     time: "12:01 pm",
-    //     message: 'Well, good things come in small package after all',
-    //     upertext: 'good'
-    //   },
-    // ];
-
+    
   }
 
   async getUserChat(){
@@ -212,6 +71,20 @@ export class ChatManaPage implements OnInit {
      messagesQuery.then((result) => {
        this.conversationMessages = result.data.allMessage;
      });
+
+     var messagesSubscription = API.graphql(graphqlOperation(subscriptions.subscribeToNewMessage, {conversationId: this.order.serviceId})) as any;
+     
+     messagesSubscription.subscribe((result) => {
+        console.log('New message is in')
+        
+        var removeMessages = this.conversationMessages.filter(function(value) { return value.createdAt == this.createdAt && value.content == this.content }, result.value.data.subscribeToNewMessage);
+        removeMessages.forEach((message) => {
+           this.conversationMessages.splice(this.conversationMessages.indexOf(message),1);
+        })
+        
+        this.conversationMessages.push(result.value.data.subscribeToNewMessage);
+        
+     });   
 
   }
 
@@ -272,15 +145,18 @@ export class ChatManaPage implements OnInit {
   
 
   sendMsg() {
-    var newMessage = {
+    var newMessage: any = {
       content: this.inp_text,
       conversationId: this.order.serviceId,
       createdAt: (new Date()).toISOString()    
-    }
-
-    this.conversationMessages.push(newMessage);
+    }    
 
     API.graphql(graphqlOperation(mutations.createMessage, newMessage));
+
+    newMessage.sender = this.chatUser.cognitoId;
+    newMessage.status = "pending";
+
+    this.conversationMessages.push(newMessage);
 
   //   let otherUser;
   //   if (this.count === 0) {
