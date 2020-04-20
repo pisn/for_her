@@ -19,7 +19,7 @@ export class ChatManaPage implements OnInit {
   chatUser: any; 
   order: any;
   inp_text: any;
-  conversationMessages: Array<any>;  
+  conversationMessages: Array<any>;    
   editorMsg = '';
   showEmojiPicker = false;  
 
@@ -39,8 +39,6 @@ export class ChatManaPage implements OnInit {
       if(result.data.me != null){                      
         this.chatUser = result.data.me;
 
-        console.log('UserChat from Me:')
-        console.log(this.chatUser)
       }
     });
 
@@ -48,15 +46,9 @@ export class ChatManaPage implements OnInit {
  }
 
   async createUserChat() {
-    console.log('Creating user');
-
-      var newUserMutation = API.graphql(graphqlOperation(mutations.createUser, {username: this.cognitoService.userAttributes['name']})) as Promise<any>;
-
-      newUserMutation.then((result) => {
-          console.log('New user created');                   
-      });
+    var newUserMutation = API.graphql(graphqlOperation(mutations.createUser, {username: this.cognitoService.userAttributes['name']})) as Promise<any>;      
       
-      return newUserMutation;
+    return newUserMutation;
   }
 
   async createConversation() {
@@ -74,8 +66,7 @@ export class ChatManaPage implements OnInit {
 
      var messagesSubscription = API.graphql(graphqlOperation(subscriptions.subscribeToNewMessage, {conversationId: this.order.serviceId})) as any;
      
-     messagesSubscription.subscribe((result) => {
-        console.log('New message is in')
+     messagesSubscription.subscribe((result) => {       
         
         var removeMessages = this.conversationMessages.filter(function(value) { return value.createdAt == this.createdAt && value.content == this.content }, result.value.data.subscribeToNewMessage);
         removeMessages.forEach((message) => {
@@ -99,8 +90,7 @@ export class ChatManaPage implements OnInit {
     
     var conversations = this.chatUser.conversations.userConversations.filter(function (value) { return value.conversationId == this  },this.order.serviceId);    
 
-    if(conversations.length == 0){
-       console.log('Conversation does not exist yet. Creating') 
+    if(conversations.length == 0){       
        await this.createConversation();      
     }    
 
@@ -158,41 +148,35 @@ export class ChatManaPage implements OnInit {
 
     this.conversationMessages.push(newMessage);
 
-  //   let otherUser;
-  //   if (this.count === 0) {
-  //     otherUser = this.arr[0].message
-  //     this.count++
-  //   }
-  //   else if (this.count == this.arr.length) {
-  //     this.count = 0;
-  //     otherUser = this.arr[this.count].message
-  //   }
-  //   else {
-  //     otherUser = this.arr[this.count].message;
-  //     this.count++
-  //   }
-
-  //   this.msgList.push({
-  //     userId: this.User,
-  //     userName: this.User,
-  //     userAvatar: "assets/user.jpeg",
-  //     time: "12:01 pm",
-  //     message: this.inp_text,
-  //     upertext: this.inp_text
-  //   })
-  //   this.msgList.push({
-  //     userId: this.toUser,
-  //     userName: this.toUser,
-  //     userAvatar: "assets/user.jpeg",
-  //     time: "12:01 pm",
-  //     message: otherUser,
-  //     upertext: otherUser
-  //   });
-    this.inp_text = "";
-    console.log('scrollBottom');
+    this.inp_text = "";    
     setTimeout(() => {
       this.scrollToBottom()
     }, 10)
+   }
+
+   showMessageDetails(msg){     
+    if(msg.showDetails == false || msg.showDetails == null){
+      this.conversationMessages.forEach((message) => {
+        if(message.showDetails == true)
+          message.showDetails = false; //Escondendo hora de outras mensagens antes
+      })
+
+      msg.showDetails = true;
+    }
+    else
+      msg.showDetails = false;     
+   }
+   
+   formatTime(isoTime: string){
+     var dateObject = new Date(Date.parse(isoTime));
+     const today = new Date();
+
+     if(dateObject.getDate() == today.getDate() && dateObject.getMonth() == today.getMonth() && dateObject.getFullYear() == today.getFullYear()){
+       return "Hoje " + dateObject.toLocaleTimeString();
+     }
+     else{
+       return dateObject.toLocaleString();
+     }
    }
 
 }
