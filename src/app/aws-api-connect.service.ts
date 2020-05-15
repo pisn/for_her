@@ -3,6 +3,7 @@ import {HttpService} from './http.service';
 import { CognitoServiceService } from './cognito-service.service';
 import { HttpHeaders } from '@angular/common/http';
 import { Time } from '@angular/common';
+import Amplify, {Auth} from 'aws-amplify';
 
 @Injectable({
   providedIn: 'root'
@@ -39,18 +40,19 @@ export class AwsApiConnectService {
   }
 
   getOrdersByUser(){
-
+    
     return new Promise((resolve,reject) => {
       var headersDict = {
         'Accept': "application/json", 
         'Authorization': this.cognitoService.getUserSession().getIdToken().getJwtToken().toString()
+        
       };
       
       var requestOptions = {
         headers : new HttpHeaders(headersDict)
-      };              
+      };                    
       
-      this.httpService.getHttpClient().get(this.API_URL + "serviceorderbyuser?userId=" + this.cognitoService.getUserId())
+      this.httpService.getHttpClient().get(this.API_URL + "serviceorderbyuser?userId=" + this.cognitoService.getUserId(), requestOptions)
               .subscribe((result: any) => {                   
                   resolve(result);                    
               },
@@ -61,6 +63,31 @@ export class AwsApiConnectService {
       
     });
 
+  }
+
+  getSubservices(subservice){    
+
+    return new Promise((resolve,reject) => {
+      var headersDict = {
+        'Accept': "application/json", 
+        'Authorization': this.cognitoService.getUserSession().getIdToken().getJwtToken().toString()
+      };
+      
+      var requestOptions = {
+        headers : new HttpHeaders(headersDict)
+      };                   
+      
+
+      this.httpService.getHttpClient().get(this.API_URL + "subservicedetails?subservice=" + subservice,requestOptions)
+              .subscribe((result: any) => {                              
+                  resolve(result);                    
+              },
+              (error) => {                    
+                  console.log(error);
+                  reject(error);
+              });
+      
+   });
   }
 
   setNewServiceOrder(prestadora: any, subservices : Array<string>, chosenDate : Date, chosenTime: string, details: string, location: Array<any>){

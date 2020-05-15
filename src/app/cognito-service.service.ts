@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as AWSCognito from 'amazon-cognito-identity-js';
 import Amplify, {Auth} from 'aws-amplify';
 import { reject } from 'q';
+import { AwsApiConnectService } from './aws-api-connect.service';
 
 
 @Injectable({
@@ -11,7 +12,7 @@ export class CognitoServiceService {
   user : AWSCognito.CognitoUser;
   userAttributes: any;
   userSession : AWSCognito.CognitoUserSession;
-  isConnected : boolean;
+  isConnected : boolean;  
 
   //replace the value with actual value 
   _POOL_DATA = {
@@ -63,8 +64,9 @@ export class CognitoServiceService {
       const cognitoUser = new AWSCognito.CognitoUser({
         Username: email,
         Pool: userPool
-      });
+      });      
       
+
       cognitoUser.authenticateUser(authDetails, {
         onSuccess: result => {
           resolved(result);
@@ -73,7 +75,11 @@ export class CognitoServiceService {
           this.user = cognitoUser;
 
           Auth.signIn(email, password).then(res => {
-            console.log('Logged in Amplify')
+            console.log('Logged in Amplify')                        
+            Auth.currentSession().then(d => {
+              console.log('UserSession')
+              this.alternativeUserSession = d;
+            });
           })          
 
           this.user.getUserAttributes((err, attrs) => {

@@ -5,6 +5,7 @@ import { HttpHeaders } from '@angular/common/http';
 import {CognitoServiceService} from '../cognito-service.service';
 import {HttpService} from '../http.service';
 import {LocationSelectPage} from '../location-select/location-select.page';
+import { AwsApiConnectService } from '../aws-api-connect.service';
 
 
 @Component({
@@ -23,43 +24,19 @@ export class SubserviceDetailsPage implements OnInit {
   selectedDetails : Array<boolean>;
   totalValue : number;
 
-  constructor(private route: ActivatedRoute, private router: Router, private cognitoService: CognitoServiceService, private httpService : HttpService, private modalCtrl : ModalController) { }
+  constructor(private route: ActivatedRoute, private router: Router, private awsService: AwsApiConnectService, private cognitoService: CognitoServiceService, private httpService : HttpService, private modalCtrl : ModalController) { }
 
   ngOnInit() {
     this.totalValue = 0;
     
     this.chosenSubservice = this.route.snapshot.paramMap.get('chosenSubservice');
 
-    this.getSubservices().then((result: any) => {
+    this.awsService.getSubservices(this.chosenSubservice).then((result: any) => {
       this.subserviceDetails = result.Items;
       this.selectedDetails = new Array<boolean>(result.Items.length);
       
     });
-  }
-
-  getSubservices(){    
-
-    return new Promise((resolve,reject) => {
-      var headersDict = {
-        'Accept': "application/json", 
-        'Authorization': this.cognitoService.getUserSession().getIdToken().getJwtToken().toString()
-      };
-      
-      var requestOptions = {
-        headers : new HttpHeaders(headersDict)
-      };              
-      
-      this.httpService.getHttpClient().get(this.API_URL + "subservicedetails?subservice=" + this.chosenSubservice,requestOptions)
-              .subscribe((result: any) => {                              
-                  resolve(result);                    
-              },
-              (error) => {                    
-                  console.log(error);
-                  reject(error);
-              });
-      
-   });
-}
+  }  
 
 selectSubserviceDetail(selectedIndex){
   this.selectedDetails[selectedIndex] = !this.selectedDetails[selectedIndex];

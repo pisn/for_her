@@ -16,7 +16,7 @@ export class MyOrdersPage implements OnInit {
   constructor(private router: Router, private awsApi: AwsApiConnectService, private utils: CommonUtilsService) { }
 
   ngOnInit() {
-    this.awsApi.getOrdersByUser().then((result: any) => {        
+    this.awsApi.getOrdersByUser().then((result: any) => {           
         this.orders = this.processOrders(result.Items);
     },
     (error: any) => {
