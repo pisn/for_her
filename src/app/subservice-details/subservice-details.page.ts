@@ -43,8 +43,7 @@ selectSubserviceDetail(selectedIndex){
 }
 
 
-async launchLocationPage(){
-
+async launchLocationPage(){  
   let modal = await this.modalCtrl.create({
     component: LocationSelectPage      
   });

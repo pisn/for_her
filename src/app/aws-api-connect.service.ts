@@ -94,13 +94,12 @@ export class AwsApiConnectService {
 
     return new Promise((resolve,reject) => {
       var headersDict = {
-        'Accept': "application/json", 
+        'Content-Type': "application/json", 
         'Authorization': this.cognitoService.getUserSession().getIdToken().getJwtToken().toString()
       };
       
-      var requestOptions = {
-        headers : new HttpHeaders(headersDict)
-      };              
+      const headers = new HttpHeaders(headersDict);
+                
 
       var prestadoraFiltered = {
         coordinates: prestadora.coordinates,
@@ -114,8 +113,7 @@ export class AwsApiConnectService {
 
       var requestBody = {
           table: "serviceOrders",
-          item: {
-            userId: this.cognitoService.getUserId(),            
+          item: {                      
             location: location,
             chosenSubservices: subservices,            
             chosenDate : chosenDate,
@@ -127,8 +125,9 @@ export class AwsApiConnectService {
       };
       
       console.log(JSON.stringify(requestBody).toString());
+      
 
-      this.httpService.getHttpClient().post(this.API_URL + "serviceorder", JSON.stringify(requestBody),requestOptions)
+      this.httpService.getHttpClient().post(this.API_URL + "serviceorder", requestBody,{headers : headers})
               .subscribe((result: any) => {                    
                   resolve(result);                    
               },

@@ -75,11 +75,7 @@ export class CognitoServiceService {
           this.user = cognitoUser;
 
           Auth.signIn(email, password).then(res => {
-            console.log('Logged in Amplify')                        
-            Auth.currentSession().then(d => {
-              console.log('UserSession')
-              this.alternativeUserSession = d;
-            });
+            console.log('Logged in Amplify')                                    
           })          
 
           this.user.getUserAttributes((err, attrs) => {
