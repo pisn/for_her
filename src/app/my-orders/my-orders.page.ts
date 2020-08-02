@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AwsApiConnectService} from '../aws-api-connect.service';
 import {CommonUtilsService} from '../common-utils.service';
 import {Router, NavigationExtras} from '@angular/router';
+import { CognitoServiceService } from '../cognito-service.service';
 
 
 @Component({
@@ -13,7 +14,7 @@ export class MyOrdersPage implements OnInit {
 
   orders: Array<any>;
 
-  constructor(private router: Router, private awsApi: AwsApiConnectService, private utils: CommonUtilsService) { }
+  constructor(private router: Router, private awsApi: AwsApiConnectService, private utils: CommonUtilsService, private cognitoService: CognitoServiceService) { }
 
   ngOnInit() {
     this.awsApi.getOrdersByUser().then((result: any) => {           
@@ -36,6 +37,10 @@ export class MyOrdersPage implements OnInit {
 
       d.chosenSubservices.forEach(serv => {        
         d.totalPrice = d.totalPrice + serv.price;        
+      });
+
+      this.cognitoService.downloadPrestadoraPictureFromS3(d.prestadora.prestadoraId).then((result) => {
+        d.profilePicture = result;
       });
 
     });
