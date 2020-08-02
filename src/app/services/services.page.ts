@@ -62,6 +62,6 @@ export class ServicesPage implements OnInit {
               });
       
    });
-}
+  }
 
 }

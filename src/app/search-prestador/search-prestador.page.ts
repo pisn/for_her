@@ -19,7 +19,7 @@ export class SearchPrestadorPage implements OnInit {
   prestadoras: Array<any>;   
   location: any; 
 
-  constructor(private router: Router, private awsConnectService : AwsApiConnectService, private geolocation : Geolocation) 
+  constructor(private router: Router, private awsConnectService : AwsApiConnectService, private cognitoService : CognitoServiceService) 
   { 
     
   }
@@ -62,7 +62,7 @@ export class SearchPrestadorPage implements OnInit {
 
   processedPrestadoras(prestadoras : any){   
 
-    //Obtendo distancia de cada prestadora ao usuário    
+    //Obtendo distancia e foto de cada prestadora ao usuário       
 
     prestadoras.forEach(element => {               
       console.log(element.nome + ' coordinates: ' + element.coordinates.latitude);
@@ -77,10 +77,9 @@ export class SearchPrestadorPage implements OnInit {
 
 
       element.distancePrice =   kilometerDistance * element.kilometerPrice
-     });    
 
-     prestadoras.forEach(element => {
-        var summedPrice = 0;
+
+      var summedPrice = 0;
 
         this.subserviceDetails.forEach(s => {
           console.log('Summing price for: ' + s);
@@ -90,12 +89,16 @@ export class SearchPrestadorPage implements OnInit {
 
         element.preco = summedPrice;
 
-     });
+        let profilePicturePromise = this.cognitoService.downloadPrestadoraPictureFromS3(element.prestadoraId);
 
+        profilePicturePromise.then((data) => {
+          element.profilePicture = data;
+        })        
 
+     });       
 
-     return prestadoras;
-
+     return prestadoras; //Retornar prestadoras somente apos carregar todas as fotos de perfil
+      
   }
 
   convertedDistance(distance: number){

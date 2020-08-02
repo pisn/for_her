@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as AWSCognito from 'amazon-cognito-identity-js';
+import * as aws from 'aws-sdk';
 import Amplify, {Auth} from 'aws-amplify';
 import { reject } from 'q';
 import { AwsApiConnectService } from './aws-api-connect.service';
@@ -178,6 +179,42 @@ export class CognitoServiceService {
     });
 
 
+  }
+
+
+  downloadPrestadoraPictureFromS3(prestadoraId){
+    return new Promise((resolve, reject) => {    
+          aws.config.region = 'ca-central-1';
+          aws.config.credentials = new aws.CognitoIdentityCredentials({
+            IdentityPoolId: "ca-central-1:1aa43394-222b-4c1c-a8dc-53f91f4effd9",
+            Logins: {
+              'cognito-idp.ca-central-1.amazonaws.com/ca-central-1_UKTkSiKAR' : this.getUserSession().getIdToken().getJwtToken()
+            }
+          });      
+  
+      var s3 = new aws.S3({
+        apiVersion: "2006-03-01",
+        params: { Bucket: "forher-prestadora-profilepictures" }
+      }); 
+      
+  
+      var data = {
+        Bucket: "forher-prestadora-profilepictures",
+        Key: 'profilePicture_' + prestadoraId + '.jpg'        
+      };
+      
+  
+      s3.getObject(data, (err, res) => {
+        if (err) {
+          reject(err);
+        } else {
+          let base64String= (res.Body as Buffer).toString('base64')
+          let src = "data:image/jpeg;base64,"+base64String;
+
+          resolve(src);
+        }
+      });
+    });
   }
 
   constructor() { 
