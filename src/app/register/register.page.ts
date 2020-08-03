@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {CognitoServiceService} from '../cognito-service.service';
 import { GeneralUtilitiesModule} from '../general-utilities/general-utilities.module';
-import { NavController, ToastController } from '@ionic/angular';
-
+import { NavController, ToastController, ModalController } from '@ionic/angular';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 import {HttpService} from '../http.service';
 import { jsonpCallbackContext } from '@angular/common/http/src/module';
+import { PictureCropperPage } from '../picture-cropper/picture-cropper.page';
 
 @Component({
   selector: 'app-register',
@@ -18,7 +19,12 @@ export class RegisterPage implements OnInit {
   DECIMAL_SEPARATOR=".";
   GROUP_SEPARATOR=",";
 
-  constructor(private cognitoService : CognitoServiceService, private navCtrl : NavController, private toastController : ToastController, private httpService: HttpService) {     
+  constructor(private cognitoService : CognitoServiceService, 
+              private navCtrl : NavController, 
+              private modalCtrl: ModalController,
+              private toastController : ToastController, 
+              private httpService: HttpService, 
+              private camera: Camera) {     
   }
 
   nomeInput: string;
@@ -33,6 +39,7 @@ export class RegisterPage implements OnInit {
   emailInput : string;
   senhaInput : string;
   cepWorked : boolean;
+  base64Photo: any;  
   
   @ViewChild("numeroInputEdit") public numeroInputRef: ElementRef;
 
@@ -176,6 +183,7 @@ export class RegisterPage implements OnInit {
   }
 
   ngOnInit() {
+    this.base64Photo = "/assets/testAvatar.png";
   }
 
   async toastNotify(message : string){
@@ -188,13 +196,46 @@ export class RegisterPage implements OnInit {
 
   }
 
+  async TakeProfilePicture() {
+    const options: CameraOptions = {
+      quality: 100,      
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true
+    }
+    
+    this.camera.getPicture(options).then(async (imageData) => {
+     // imageData is either a base64 encoded string or a file URI
+     // If it's base64 (DATA_URL):         
+     
+     let base64Image = 'data:image/jpeg;base64,' + imageData;     
+
+      let modal = await this.modalCtrl.create({
+        component: PictureCropperPage,
+        componentProps: {
+          imageBase64: base64Image
+        }        
+      });
+  
+      await modal.present();
+      
+      modal.onDidDismiss().then ((croppedPhoto) => {
+        this.base64Photo = croppedPhoto.data;                
+      });
+
+    }, (err) => {
+     // Handle error
+    });
+  }
+
   createAccount(){
     var birthDate = new Date(this.dataNascimentoInput);
     var birthFormatedString = birthDate.getFullYear() + "-" + GeneralUtilitiesModule.pad(birthDate.getMonth(),2) + "-" + GeneralUtilitiesModule.pad(birthDate.getDay(),2);
     
     var fullAdress = this.logradouroInput + ", " + this.numeroInput + (this.complementoInput != "" ? ", " + this.complementoInput : "") + ", " + this.cidadeInput + ", " + this.ufInput;
 
-    this.cognitoService.signUp(this.emailInput,this.nomeInput,birthFormatedString,this.senhaInput, this.unFormat(this.cpfInput.toString()),fullAdress)
+    this.cognitoService.signUp(this.emailInput,this.nomeInput,birthFormatedString,this.senhaInput, this.unFormat(this.cpfInput.toString()),fullAdress, this.base64Photo)
         .then(res => {          
           this.navCtrl.back();
           this.toastNotify("Conta criada. Para confirmar sua conta, siga as instruções enviadas por email");

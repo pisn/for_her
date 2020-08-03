@@ -29,7 +29,8 @@ const routes: Routes = [
   { path: 'subservice-details/:chosenSubservice', loadChildren: './subservice-details/subservice-details.module#SubserviceDetailsPageModule' },
   { path: 'location-select', loadChildren: './location-select/location-select.module#LocationSelectPageModule' },
   { path: 'chat-mana', loadChildren: './chat-mana/chat-mana.module#ChatManaPageModule' },
-  { path: 'order-details', loadChildren: './order-details/order-details.module#OrderDetailsPageModule' }
+  { path: 'order-details', loadChildren: './order-details/order-details.module#OrderDetailsPageModule' },
+  { path: 'picture-cropper', loadChildren: './picture-cropper/picture-cropper.module#PictureCropperPageModule' }
 ];
 
 @NgModule({

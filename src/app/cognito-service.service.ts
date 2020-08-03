@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as AWSCognito from 'amazon-cognito-identity-js';
 import * as aws from 'aws-sdk';
 import Amplify, {Auth} from 'aws-amplify';
+import {Buffer} from 'buffer';
 import { reject } from 'q';
 import { AwsApiConnectService } from './aws-api-connect.service';
 
@@ -29,7 +30,10 @@ export class CognitoServiceService {
     return this.user.getUsername();
   }
 
-  signUp(email: string, name:string, birthDate:string, password: string, cpf: string,  address:string) {
+  signUp(email: string, name:string, birthDate:string, password: string, cpf: string,  address:string, base64Photo: any) {
+
+    var cognitoService = this;
+
     return new Promise((resolved, reject) => {
       const userPool = new AWSCognito.CognitoUserPool(this._POOL_DATA);
 
@@ -46,6 +50,8 @@ export class CognitoServiceService {
         if (err) {
           reject(err);
         } else {
+          cognitoService.uploadPictureToS3(base64Photo, "profilePicture_" + result.userSub + ".jpg");  
+
           resolved(result);
         }
       });
@@ -179,6 +185,44 @@ export class CognitoServiceService {
     });
 
 
+  }
+
+  uploadPictureToS3(image, imageName){
+    return new Promise((resolve, reject) => {    
+      let base64Image = image.replace(/^data:image\/\w+;base64,/, '');
+      
+      const body = Buffer.from(base64Image, 'base64');
+
+      aws.config.region = 'ca-central-1';
+          aws.config.credentials = new aws.Credentials({
+            accessKeyId:  "AKIATSVHE7R5WYSRPDKR",
+            secretAccessKey: "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"
+      });
+  
+      var s3 = new aws.S3({
+        apiVersion: "2006-03-01",
+        params: { Bucket: "forher-prestadora-profilepictures" }
+      }); 
+      
+  
+      var data = {
+        Bucket: "forher-prestadora-profilepictures",
+        Key: imageName,
+        Body: body,
+        ContentEncoding: "base64",
+        ContentType: "image/jpeg"
+      };
+
+      
+  
+      s3.putObject(data, (err, res) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(res);
+        }
+      });
+    });
   }
 
 

@@ -16,20 +16,25 @@ import { ConnectivityService } from './connectivity.service';
 import { LocationSelectPage } from './location-select/location-select.page';
 import { LocationSelectPageModule } from './location-select/location-select.module';
 import { ChatManaPage } from './chat-mana/chat-mana.page';
+import { PictureCropperPage } from './picture-cropper/picture-cropper.page';
+import { PictureCropperPageModule } from './picture-cropper/picture-cropper.module';
+import { Camera } from '@ionic-native/camera/ngx';
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [LocationSelectPage],  
+  entryComponents: [LocationSelectPage, PictureCropperPage],  
   imports: [
     BrowserModule,    
     IonicModule.forRoot(),
     AppRoutingModule,    
     HttpClientModule, 
-    LocationSelectPageModule    
+    LocationSelectPageModule,
+    PictureCropperPageModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    Camera,
     Geolocation,
     CognitoServiceService,
     ConnectivityService,
@@ -37,6 +42,7 @@ import { ChatManaPage } from './chat-mana/chat-mana.page';
     ModalController,
     NavController,
     LocationSelectPage,     
+    PictureCropperPage,
     ChatManaPage,
     Geolocation,
     Platform,
