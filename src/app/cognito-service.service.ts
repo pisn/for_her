@@ -15,6 +15,7 @@ export class CognitoServiceService {
   userAttributes: any;
   userSession : AWSCognito.CognitoUserSession;
   isConnected : boolean;  
+  profilePicture: any;
 
   //replace the value with actual value 
   _POOL_DATA = {
@@ -75,8 +76,7 @@ export class CognitoServiceService {
       
 
       cognitoUser.authenticateUser(authDetails, {
-        onSuccess: result => {
-          resolved(result);
+        onSuccess: result => {          
           this.userSession = result;
           this.isConnected = true;
           this.user = cognitoUser;
@@ -91,6 +91,17 @@ export class CognitoServiceService {
             attrs.forEach(attr => (payload[attr.getName()] = attr.getValue()));            
             this.userAttributes = payload
           });
+
+          let profilePictureDownloadPromise = this.downloadPrestadoraPictureFromS3(this.getUserId());
+          
+          profilePictureDownloadPromise.then((data) => {
+            this.profilePicture = data;
+          })
+
+          Promise.all([profilePictureDownloadPromise]).then((allResolved) => {
+            resolved(result); //Esperar picture voltar pra liberar o resolve
+          });
+
         },
         onFailure: err => {
           reject(err);

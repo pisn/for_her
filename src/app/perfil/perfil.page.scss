@@ -19,3 +19,8 @@
     display:block;
     text-align:center; /*This will result in centering the link text, which is probably what you want -brianjohnsondesign.com*/
 }
+
+.profile-picture {
+    border-radius: 50% !important;
+    overflow: hidden;
+    }  

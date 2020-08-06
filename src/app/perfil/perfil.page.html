@@ -10,13 +10,13 @@
 <ion-content>
   <ion-grid>
     <ion-row>
-      <ion-col size="3"><ion-img src="/assets/testAvatar.png" ></ion-img></ion-col>
+      <ion-col size="3"><ion-img class="profile-picture" [src]="profilePicture" ></ion-img></ion-col>
       <ion-grid>
         <ion-row>
-          Sônia Abrantes
+          {{name}}
         </ion-row>
         <ion-row>
-          <font color="gray">CPF: 444.666.777-98</font>
+          <font color="gray">CPF: {{cpf}}</font>
         </ion-row>
         <ion-row>
           <ion-icon name="star"></ion-icon><font color="gray">4.98</font>
@@ -26,10 +26,9 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        Avenida Jaguaré, 325<br> 
-        Bloco 4, Apartamento 91<br>      
-        São Paulo, SP<br>
-        05346-000 <br>
+        <ion-item text-wrap>
+          {{address}}
+        </ion-item>
         <ion-icon name="create"></ion-icon>
       </ion-col>           
     </ion-row>

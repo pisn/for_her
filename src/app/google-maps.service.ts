@@ -45,8 +45,7 @@ export class GoogleMapsService {
     return new Promise((resolve) => {     
 
       if(typeof google == "undefined" || typeof google.maps == "undefined"){
-
-        console.log("Google maps JavaScript needs to be loaded.");
+        
         this.disableMap();
 
         if(this.connectivityService.isOnline()){

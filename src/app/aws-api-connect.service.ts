@@ -111,21 +111,27 @@ export class AwsApiConnectService {
         prestadoraId: prestadora.prestadoraId
       }
 
+      var clienteFiltered = {
+        name: this.cognitoService.userAttributes['name'],
+        clienteId: this.cognitoService.getUserId()
+      }
+
       var requestBody = {
           table: "serviceOrders",
           item: {                      
+            prestadoraId: prestadoraFiltered.prestadoraId,
             location: location,
             chosenSubservices: subservices,            
             chosenDate : chosenDate,
             chosenTime : chosenTime,
             prestadora: prestadoraFiltered,            
+            cliente: clienteFiltered,
             details : details,             
             status: "Em Aberto"            
           }
       };
       
-      console.log(JSON.stringify(requestBody).toString());
-      
+          
 
       this.httpService.getHttpClient().post(this.API_URL + "serviceorder", requestBody,{headers : headers})
               .subscribe((result: any) => {                    
